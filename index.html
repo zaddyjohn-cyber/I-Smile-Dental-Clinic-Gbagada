@@ -17,244 +17,221 @@
 
   <style>
   /* =============================================
-     HERO VIDEO + CONSTELLATION — Inline styles
+     HERO — VIDEO → ORBITAL SPHERE SYSTEM
   ============================================= */
 
-  /* Full-screen video hero (overrides the CSS orb hero) */
   .hero {
     position: relative;
     min-height: 100vh;
     display: flex;
     align-items: center;
     overflow: hidden;
-    background: var(--dark-2);
+    background: #050d14;
   }
 
   /* ---- VIDEO LAYER ---- */
   .hero-video-wrap {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    transition: opacity 1.4s cubic-bezier(0.4,0,0.2,1);
+    position: absolute; inset: 0; z-index: 0;
+    transition: opacity 1.6s cubic-bezier(0.4,0,0.2,1);
   }
   .hero-video-wrap.fade-out { opacity: 0; pointer-events: none; }
 
   #hero-vid {
     width: 100%; height: 100%;
-    object-fit: cover;
-    display: block;
+    object-fit: cover; display: block;
   }
-
-  /* Dark gradient over video so text is readable */
   .hero-vid-overlay {
     position: absolute; inset: 0;
-    background: linear-gradient(
-      135deg,
-      rgba(10,21,32,0.72) 0%,
-      rgba(10,21,32,0.45) 50%,
-      rgba(10,21,32,0.65) 100%
-    );
+    background: linear-gradient(135deg,rgba(5,13,20,0.75) 0%,rgba(5,13,20,0.35) 50%,rgba(5,13,20,0.6) 100%);
   }
 
-  /* ---- CONSTELLATION IMAGES ---- */
-  .constellation {
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    pointer-events: none;
-  }
-
-  .c-img {
-    position: absolute;
-    width: 190px;
-    border-radius: 20px;
-    overflow: hidden;
-    border: 2.5px solid rgba(244,208,63,0.45);
-    box-shadow:
-      0 0 0 5px rgba(244,208,63,0.07),
-      0 20px 60px rgba(0,0,0,0.55),
-      0 0 40px rgba(244,208,63,0.12);
-    /* start hidden, far from position */
-    opacity: 0;
-    transform: scale(0.25) rotate(0deg);
-    filter: blur(12px);
-    transition:
-      opacity 0.85s cubic-bezier(0.34,1.56,0.64,1),
-      transform 0.85s cubic-bezier(0.34,1.56,0.64,1),
-      filter 0.7s ease;
-  }
-
-  .c-img img {
-    width: 100%; height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-
-  /* Positions & rotations for each card */
-  .c-img-1 { top: 8vh;  left: 3vw;  width:200px; aspect-ratio:3/4; transform-origin: top left;    }
-  .c-img-2 { top: 6vh;  right:3vw;  width:185px; aspect-ratio:4/3; transform-origin: top right;   }
-  .c-img-3 { top: 42%;  left: 1vw;  width:175px; aspect-ratio:3/4; transform-origin: left center; }
-  .c-img-4 { top: 40%;  right:1vw;  width:185px; aspect-ratio:4/3; transform-origin: right center;}
-  .c-img-5 { bottom:6vh;left: 6vw;  width:195px; aspect-ratio:4/3; transform-origin: bottom left; }
-  .c-img-6 { bottom:5vh;right:5vw;  width:175px; aspect-ratio:3/4; transform-origin: bottom right;}
-
-  /* When .active — fly in to final position */
-  .c-img.active {
-    opacity: 1;
-    filter: blur(0);
-  }
-  .c-img-1.active { transform: rotate(-8deg) scale(1); animation: floatCard1 7s ease-in-out 0.85s infinite; }
-  .c-img-2.active { transform: rotate(6deg)  scale(1); animation: floatCard2 8s ease-in-out 0.85s infinite; }
-  .c-img-3.active { transform: rotate(-5deg) scale(1); animation: floatCard3 6s ease-in-out 0.85s infinite; }
-  .c-img-4.active { transform: rotate(7deg)  scale(1); animation: floatCard4 7.5s ease-in-out 0.85s infinite; }
-  .c-img-5.active { transform: rotate(-10deg)scale(1); animation: floatCard5 9s ease-in-out 0.85s infinite; }
-  .c-img-6.active { transform: rotate(5deg)  scale(1); animation: floatCard6 6.5s ease-in-out 0.85s infinite; }
-
-  /* Unique float paths for each card so they feel alive */
-  @keyframes floatCard1 {
-    0%,100% { transform: rotate(-8deg) translate(0,0); }
-    33%      { transform: rotate(-6deg) translate(8px,-14px); }
-    66%      { transform: rotate(-10deg) translate(-6px,8px); }
-  }
-  @keyframes floatCard2 {
-    0%,100% { transform: rotate(6deg) translate(0,0); }
-    40%     { transform: rotate(8deg) translate(-10px,12px); }
-    70%     { transform: rotate(4deg) translate(6px,-10px); }
-  }
-  @keyframes floatCard3 {
-    0%,100% { transform: rotate(-5deg) translate(0,0); }
-    50%     { transform: rotate(-7deg) translate(12px,-16px); }
-  }
-  @keyframes floatCard4 {
-    0%,100% { transform: rotate(7deg) translate(0,0); }
-    35%     { transform: rotate(5deg) translate(-8px,14px); }
-    70%     { transform: rotate(9deg) translate(4px,-8px); }
-  }
-  @keyframes floatCard5 {
-    0%,100% { transform: rotate(-10deg) translate(0,0); }
-    45%     { transform: rotate(-8deg) translate(14px,-12px); }
-  }
-  @keyframes floatCard6 {
-    0%,100% { transform: rotate(5deg) translate(0,0); }
-    38%     { transform: rotate(7deg) translate(-12px,10px); }
-    72%     { transform: rotate(3deg) translate(8px,-14px); }
-  }
-
-  /* Glowing ring around each card */
-  .c-img::after {
-    content: '';
-    position: absolute; inset: 0;
-    border-radius: 20px;
-    box-shadow: inset 0 0 30px rgba(244,208,63,0.06);
-    pointer-events: none;
-  }
-
-  /* Label on each floating card */
-  .c-label {
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    background: linear-gradient(to top, rgba(10,21,32,0.9) 0%, transparent 100%);
-    padding: 18px 12px 10px;
-    font-family: 'Poppins', sans-serif;
-    font-weight: 700;
-    font-size: 0.68rem;
-    color: var(--accent);
-    letter-spacing: 0.5px;
-    text-align: center;
-  }
-
-  /* ---- CONSTELLATION BACKGROUND (shows after video) ---- */
+  /* ---- POST-VIDEO DARK BG ---- */
   .hero-post-bg {
     position: absolute; inset: 0; z-index: 0;
     opacity: 0;
-    transition: opacity 1.2s ease 0.4s;
+    transition: opacity 1.4s ease 0.3s;
+    background:
+      radial-gradient(ellipse 60% 60% at 70% 50%, rgba(27,79,114,0.18) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 30% 30%, rgba(244,208,63,0.06) 0%, transparent 60%),
+      #050d14;
   }
   .hero-post-bg.show { opacity: 1; }
-
-  /* ---- HERO INNER (text) ---- */
-  .hero-content-wrap {
-    position: relative;
-    z-index: 10;
-    width: 100%;
+  .hero-post-bg .grid-overlay {
+    position: absolute; inset: 0;
+    background-image: radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px);
+    background-size: 38px 38px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
   }
 
-  /* Transition hint — pulse the video play indicator */
-  .vid-progress {
+  /* ---- HERO LAYOUT ---- */
+  .hero-content-wrap {
+    position: relative; z-index: 10; width: 100%;
+  }
+  .hero-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 40px;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 40px;
+    min-height: 100vh;
+  }
+
+  /* ---- ORBIT STAGE (right column) ---- */
+  .orbit-stage {
+    position: relative;
+    width: 100%; height: 560px;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0;
+    transform: scale(0.85);
+    transition: opacity 1s ease, transform 1s cubic-bezier(0.34,1.2,0.64,1);
+  }
+  .orbit-stage.show { opacity: 1; transform: scale(1); }
+
+  /* ---- CENTRAL METALLIC SPHERE ---- */
+  .orb-sphere {
     position: absolute;
-    bottom: 20px; left: 50%;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at 35% 30%,
+        rgba(255,255,255,0.35) 0%,
+        rgba(200,220,240,0.18) 20%,
+        rgba(27,79,114,0.55) 45%,
+        rgba(10,30,55,0.9) 70%,
+        rgba(5,13,20,1) 100%
+      );
+    box-shadow:
+      inset -20px -20px 60px rgba(0,0,0,0.8),
+      inset 10px 10px 40px rgba(100,160,220,0.2),
+      0 0 60px rgba(27,79,114,0.35),
+      0 0 120px rgba(27,79,114,0.15),
+      0 0 4px rgba(244,208,63,0.2);
+    z-index: 5;
+    animation: spherePulse 4s ease-in-out infinite;
+  }
+
+  /* Shine flare on sphere */
+  .orb-sphere::before {
+    content: '';
+    position: absolute;
+    top: 12%; left: 18%;
+    width: 35%; height: 25%;
+    border-radius: 50%;
+    background: radial-gradient(ellipse, rgba(255,255,255,0.45) 0%, transparent 70%);
+    filter: blur(4px);
+  }
+  /* Tooth icon in center */
+  .orb-sphere::after {
+    content: '🦷';
+    position: absolute;
+    inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 3.2rem;
+    filter: drop-shadow(0 0 12px rgba(255,255,255,0.3));
+    line-height: 1;
+    padding-top: 2px;
+  }
+
+  @keyframes spherePulse {
+    0%,100% { box-shadow: inset -20px -20px 60px rgba(0,0,0,0.8), inset 10px 10px 40px rgba(100,160,220,0.2), 0 0 60px rgba(27,79,114,0.35), 0 0 120px rgba(27,79,114,0.15); }
+    50%      { box-shadow: inset -20px -20px 60px rgba(0,0,0,0.8), inset 10px 10px 40px rgba(100,160,220,0.2), 0 0 90px rgba(27,79,114,0.55), 0 0 180px rgba(27,79,114,0.25); }
+  }
+
+  /* ---- ORBIT RINGS (decorative ellipses) ---- */
+  .orbit-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1.5px solid rgba(244,208,63,0.18);
+    pointer-events: none;
+  }
+  .orbit-ring-1 {
+    width: 340px; height: 110px;
+    transform: rotateX(0deg);
+    box-shadow: 0 0 20px rgba(244,208,63,0.06), inset 0 0 20px rgba(244,208,63,0.04);
+  }
+  .orbit-ring-2 {
+    width: 460px; height: 150px;
+    border-color: rgba(100,160,220,0.14);
+    transform: rotate(55deg);
+    box-shadow: 0 0 20px rgba(100,160,220,0.06);
+  }
+  .orbit-ring-3 {
+    width: 520px; height: 170px;
+    border-color: rgba(244,208,63,0.1);
+    transform: rotate(-40deg);
+  }
+
+  /* ---- ORBIT IMAGE CARDS ---- */
+  .orbit-img-card {
+    position: absolute;
+    width: 120px;
+    aspect-ratio: 3/4;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 2.5px solid rgba(244,208,63,0.5);
+    box-shadow:
+      0 12px 40px rgba(0,0,0,0.7),
+      0 0 0 1px rgba(255,255,255,0.06),
+      0 0 20px rgba(244,208,63,0.12);
+    pointer-events: none;
+    will-change: transform, opacity;
+    /* canvas origin is orbit-stage center */
+    transform: translate(-50%, -50%);
+  }
+  .orbit-img-card img {
+    width: 100%; height: 100%;
+    object-fit: cover; display: block;
+  }
+  .orbit-img-label {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    background: linear-gradient(to top, rgba(5,13,20,0.95) 0%, transparent 100%);
+    padding: 18px 8px 7px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.6rem; font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 0.6px;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  /* vid indicator */
+  .vid-progress {
+    position: absolute; bottom: 24px; left: 50%;
     transform: translateX(-50%);
     z-index: 20;
-    display: flex; align-items: center; gap: 10px;
-    font-family: 'Poppins', sans-serif;
-    font-size: 0.72rem; font-weight: 600;
-    color: rgba(255,255,255,0.5);
-    letter-spacing: 2px;
-    text-transform: uppercase;
+    display: flex; align-items: center; gap: 8px;
+    font-family: 'Poppins', sans-serif; font-size: 0.7rem; font-weight: 600;
+    color: rgba(255,255,255,0.45); letter-spacing: 2px; text-transform: uppercase;
     transition: opacity 0.6s ease;
   }
   .vid-progress.hide { opacity: 0; pointer-events: none; }
-  .vid-dot {
-    width: 8px; height: 8px; border-radius: 50%;
-    background: var(--accent);
-    box-shadow: 0 0 8px var(--accent);
-    animation: dotPulse 1s ease-in-out infinite;
-  }
+  .vid-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 8px var(--accent); animation: dotPulse 1s ease-in-out infinite; }
+  @keyframes dotPulse { 0%,100%{transform:scale(1);opacity:1;} 50%{transform:scale(1.5);opacity:0.6;} }
 
   /* ---- BEFORE/AFTER SECTION ---- */
-  .ba-section {
-    background: var(--dark);
-    padding: 100px 0;
-    position: relative;
-    overflow: hidden;
-  }
-  .ba-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 28px;
-    margin-top: 60px;
-  }
-  .ba-card {
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.08);
-    transition: var(--transition);
-    position: relative;
-  }
+  .ba-section { background: var(--dark); padding: 100px 0; position: relative; overflow: hidden; }
+  .ba-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 60px; }
+  .ba-card { border-radius: var(--radius-lg); overflow: hidden; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); transition: var(--transition); position: relative; }
   .ba-card:hover { transform: translateY(-8px); box-shadow: 0 24px 70px rgba(0,0,0,0.4); }
-  .ba-card video {
-    width: 100%; display: block;
-    max-height: 420px; object-fit: cover;
-  }
-  .ba-card-label {
-    padding: 16px 20px;
-    font-family: 'Poppins', sans-serif; font-weight: 700;
-    font-size: 0.82rem; color: var(--accent);
-    letter-spacing: 1px; text-transform: uppercase;
-    border-top: 1px solid rgba(255,255,255,0.06);
-    background: rgba(10,21,32,0.6);
-  }
+  .ba-card video { width: 100%; display: block; max-height: 420px; object-fit: cover; }
+  .ba-card-label { padding: 16px 20px; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 0.82rem; color: var(--accent); letter-spacing: 1px; text-transform: uppercase; border-top: 1px solid rgba(255,255,255,0.06); background: rgba(10,21,32,0.6); }
 
-  /* ---- GALLERY uses real images ---- */
-  .gallery-tile img {
-    width: 100%; height: 100%;
-    object-fit: cover;
-    display: block;
-    position: absolute; inset: 0;
-    transition: transform 0.5s ease;
-  }
-  .gallery-tile:hover img { transform: scale(1.07); }
-
-  /* Mobile adjustments for constellation */
-  @media (max-width: 900px) {
-    .c-img-1, .c-img-2 { display: none; }
-    .c-img-3 { left: 0; width: 130px; top: 30%; }
-    .c-img-4 { right: 0; width: 130px; top: 30%; }
-    .c-img-5 { bottom: 2vh; left: 2vw; width: 140px; }
-    .c-img-6 { bottom: 2vh; right: 2vw; width: 130px; }
+  /* ---- RESPONSIVE ---- */
+  @media (max-width: 960px) {
+    .hero-split { grid-template-columns: 1fr; padding: 120px 24px 60px; gap: 0; min-height: auto; }
+    .orbit-stage { height: 320px; margin-top: -20px; }
+    .orb-sphere { width: 130px; height: 130px; }
+    .orbit-img-card { width: 80px; }
+    .orbit-ring-1 { width: 220px; height: 72px; }
+    .orbit-ring-2 { width: 290px; height: 94px; }
+    .orbit-ring-3 { width: 330px; height: 108px; }
   }
   @media (max-width: 600px) {
-    .c-img { display: none; }
+    .orbit-stage { display: none; }
   }
   </style>
 </head>
@@ -299,65 +276,35 @@
 <div class="menu-overlay" id="menu-overlay"></div>
 
 <!-- ========================================
-     HERO — VIDEO → CONSTELLATION
+     HERO — VIDEO → ORBITAL SPHERE
 ======================================== -->
 <section class="hero" id="hero">
 
-  <!-- Ambient blobs (always behind) -->
+  <!-- Post-video dark background with grid -->
   <div class="hero-post-bg" id="hero-post-bg">
-    <div class="hero-blob hero-blob-1"></div>
-    <div class="hero-blob hero-blob-2"></div>
-    <div class="hero-blob hero-blob-3"></div>
-    <div class="hero-grid"></div>
+    <div class="grid-overlay"></div>
   </div>
 
   <!-- Video layer -->
   <div class="hero-video-wrap" id="hero-video-wrap">
     <video id="hero-vid" playsinline muted autoplay preload="auto"
            poster="media/images/dentist-team.jpg">
-      <source src="media/videos/hero.mp4" type="video/mp4" />
+      <source src="media/videos/hero-trimmed.mp4" type="video/mp4" />
     </video>
     <div class="hero-vid-overlay"></div>
   </div>
 
-  <!-- Constellation — 6 floating photo cards -->
-  <div class="constellation" id="constellation">
-    <div class="c-img c-img-1" id="ci1">
-      <img src="media/images/dentist-team.jpg" alt="I-Smile dental team at work" loading="lazy" />
-      <div class="c-label">Expert Team</div>
-    </div>
-    <div class="c-img c-img-2" id="ci2">
-      <img src="media/images/whitening.jpg" alt="Professional teeth whitening" loading="lazy" />
-      <div class="c-label">Whitening</div>
-    </div>
-    <div class="c-img c-img-3" id="ci3">
-      <img src="media/images/treatment-drill.jpg" alt="Dental treatment in progress" loading="lazy" />
-      <div class="c-label">Precision Care</div>
-    </div>
-    <div class="c-img c-img-4" id="ci4">
-      <img src="media/images/treatment-2.jpg" alt="Dentist treating patient" loading="lazy" />
-      <div class="c-label">Gentle Touch</div>
-    </div>
-    <div class="c-img c-img-5" id="ci5">
-      <img src="media/images/happy-patient.jpg" alt="Happy smiling patient after treatment" loading="lazy" />
-      <div class="c-label">Happy Smiles</div>
-    </div>
-    <div class="c-img c-img-6" id="ci6">
-      <img src="media/images/dentist-male.jpg" alt="Dentist at work" loading="lazy" />
-      <div class="c-label">Trusted Doctors</div>
-    </div>
-  </div>
-
-  <!-- Video playing indicator -->
+  <!-- Video indicator -->
   <div class="vid-progress" id="vid-progress">
     <div class="vid-dot"></div>
     Live from our clinic
   </div>
 
-  <!-- Hero text (always visible) -->
+  <!-- Hero content — always visible on top -->
   <div class="hero-content-wrap">
-    <div class="hero-inner">
-      <!-- LEFT TEXT -->
+    <div class="hero-split">
+
+      <!-- LEFT: text -->
       <div class="hero-text">
         <div class="hero-badge">
           <span class="live-dot"></span>
@@ -386,8 +333,43 @@
         </div>
       </div>
 
-      <!-- RIGHT: empty on mobile, constellation fills the space -->
-      <div class="hero-visual" style="visibility:hidden;pointer-events:none;"></div>
+      <!-- RIGHT: orbital sphere — hidden until video ends -->
+      <div class="orbit-stage" id="orbit-stage">
+        <!-- Decorative orbit ring paths -->
+        <div class="orbit-ring orbit-ring-1"></div>
+        <div class="orbit-ring orbit-ring-2"></div>
+        <div class="orbit-ring orbit-ring-3"></div>
+
+        <!-- Central metallic sphere -->
+        <div class="orb-sphere"></div>
+
+        <!-- Orbiting image cards — positioned by JS -->
+        <div class="orbit-img-card" id="oc0">
+          <img src="media/images/dentist-team.jpg" alt="I-Smile dental team" />
+          <div class="orbit-img-label">Expert Team</div>
+        </div>
+        <div class="orbit-img-card" id="oc1">
+          <img src="media/images/whitening.jpg" alt="Teeth whitening" />
+          <div class="orbit-img-label">Whitening</div>
+        </div>
+        <div class="orbit-img-card" id="oc2">
+          <img src="media/images/treatment-drill.jpg" alt="Dental treatment" />
+          <div class="orbit-img-label">Precision Care</div>
+        </div>
+        <div class="orbit-img-card" id="oc3">
+          <img src="media/images/treatment-2.jpg" alt="Gentle treatment" />
+          <div class="orbit-img-label">Gentle Touch</div>
+        </div>
+        <div class="orbit-img-card" id="oc4">
+          <img src="media/images/happy-patient.jpg" alt="Happy patient" />
+          <div class="orbit-img-label">Happy Smiles</div>
+        </div>
+        <div class="orbit-img-card" id="oc5">
+          <img src="media/images/dentist-male.jpg" alt="Dentist at work" />
+          <div class="orbit-img-label">Trusted Doctors</div>
+        </div>
+      </div>
+
     </div>
   </div>
 
@@ -703,52 +685,87 @@
 
 <script>
 /* =============================================
-   HERO VIDEO → CONSTELLATION TRANSITION
+   HERO VIDEO → ORBITAL SPHERE SYSTEM
 ============================================= */
 (function () {
-  const vid      = document.getElementById('hero-vid');
-  const vidWrap  = document.getElementById('hero-video-wrap');
-  const postBg   = document.getElementById('hero-post-bg');
-  const chips    = document.querySelectorAll('.c-img');
-  const vidBar   = document.getElementById('vid-progress');
+  const vid       = document.getElementById('hero-vid');
+  const vidWrap   = document.getElementById('hero-video-wrap');
+  const postBg    = document.getElementById('hero-post-bg');
+  const vidBar    = document.getElementById('vid-progress');
+  const stage     = document.getElementById('orbit-stage');
+  const cards     = Array.from(document.querySelectorAll('.orbit-img-card'));
 
-  // Stagger delays for each card flying in (in seconds)
-  const delays = [0, 0.15, 0.3, 0.45, 0.6, 0.75];
+  /* ----- ORBITAL ANIMATION ENGINE ----- */
+  const N = cards.length; // 6 images
 
-  function launchConstellation() {
-    // 1. Fade out video layer
+  /* Three elliptical orbits, each carrying 2 images.
+     rx = half-width, ry = half-height, tilt = rotation angle of ellipse (deg),
+     speed = radians per frame, startOffset = initial phase offset between the two images */
+  const ORBITS = [
+    { rx: 200, ry: 55,  tilt:   0, speed: 0.008,  imgs: [0, 3] },
+    { rx: 240, ry: 75,  tilt:  55, speed: -0.006, imgs: [1, 4] },
+    { rx: 260, ry: 85,  tilt: -38, speed: 0.007,  imgs: [2, 5] },
+  ];
+
+  /* phase angles — images on same orbit start π apart */
+  const phase = [0, Math.PI, 0, Math.PI, 0, Math.PI];
+  let running = false;
+
+  function tick() {
+    if (!running) return;
+    ORBITS.forEach(orb => {
+      orb.imgs.forEach((imgIdx, slot) => {
+        phase[imgIdx] += orb.speed;
+        const a = phase[imgIdx];
+
+        /* Parametric ellipse with tilt */
+        const tRad = orb.tilt * Math.PI / 180;
+        const ex = Math.cos(a) * orb.rx;
+        const ey = Math.sin(a) * orb.ry;
+        const x = ex * Math.cos(tRad) - ey * Math.sin(tRad);
+        const y = ex * Math.sin(tRad) + ey * Math.cos(tRad);
+
+        /* Depth: use y-component for scale/opacity to simulate 3D */
+        const raw = Math.sin(a); // -1 .. 1
+        /* map so "behind" (negative y-raw) = smaller/dimmer */
+        const depth = (raw + 1) / 2; // 0 .. 1
+        const scale  = 0.55 + 0.55 * depth;
+        const opac   = 0.35 + 0.65 * depth;
+        const zIdx   = Math.round(depth * 10);
+
+        const card = cards[imgIdx];
+        card.style.left = '50%';
+        card.style.top  = '50%';
+        card.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) scale(${scale})`;
+        card.style.opacity  = opac;
+        card.style.zIndex   = depth > 0.5 ? zIdx + 6 : zIdx; // in front of sphere when in front
+      });
+    });
+    requestAnimationFrame(tick);
+  }
+
+  /* ----- VIDEO → ORBIT TRANSITION ----- */
+  function launchOrbits() {
     vidWrap.classList.add('fade-out');
     vidBar.classList.add('hide');
-
-    // 2. Show dark mesh background
     postBg.classList.add('show');
 
-    // 3. Stagger each image card in with delays
-    chips.forEach((chip, i) => {
-      setTimeout(() => {
-        chip.classList.add('active');
-      }, delays[i] * 1000 + 300); // +300ms after video starts fading
-    });
+    /* Show orbit stage */
+    setTimeout(() => {
+      stage.classList.add('show');
+      running = true;
+      tick();
+    }, 400);
   }
 
   if (vid) {
-    vid.addEventListener('ended', launchConstellation);
-
-    // Fallback: if video fails to load or play, trigger after 8s
-    let fallbackTimer = setTimeout(launchConstellation, 10000);
-    vid.addEventListener('ended', () => clearTimeout(fallbackTimer));
-    vid.addEventListener('error', () => {
-      clearTimeout(fallbackTimer);
-      launchConstellation();
-    });
-
-    // If video is very short or already ended
-    vid.addEventListener('loadedmetadata', () => {
-      if (vid.duration < 1) launchConstellation();
-    });
+    vid.addEventListener('ended', launchOrbits);
+    let fb = setTimeout(launchOrbits, 15000);
+    vid.addEventListener('ended', () => clearTimeout(fb));
+    vid.addEventListener('error', () => { clearTimeout(fb); launchOrbits(); });
+    vid.addEventListener('loadedmetadata', () => { if (vid.duration < 0.5) launchOrbits(); });
   } else {
-    // No video element — show constellation immediately
-    setTimeout(launchConstellation, 500);
+    setTimeout(launchOrbits, 500);
   }
 })();
 </script>
