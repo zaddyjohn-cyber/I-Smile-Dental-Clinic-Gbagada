@@ -5,9 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>I-Smile Dental Clinic Gbagada | Affordable Expert Dental Care in Lagos</title>
   <meta name="description" content="I-Smile Dental Clinic — Gbagada's most trusted dental home. Two locations in Gbagada, Lagos. Book today: teeth whitening, implants, braces, root canal & more. Smile Bright, Live Bright." />
-  <meta name="keywords" content="dental clinic Lagos, dentist Gbagada, teeth whitening Lagos, dental implants Lagos, braces Lagos, I-Smile Dental" />
-  <meta property="og:title" content="I-Smile Dental Clinic Gbagada | Smile Bright, Live Bright" />
-  <meta property="og:description" content="Affordable, expert dental care for every family in Gbagada, Lagos. Two convenient locations." />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🦷</text></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -17,15 +14,255 @@
   <link rel="stylesheet" href="css/components.css" />
   <link rel="stylesheet" href="css/animations.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
+
+  <style>
+  /* =============================================
+     HERO VIDEO + CONSTELLATION — Inline styles
+  ============================================= */
+
+  /* Full-screen video hero (overrides the CSS orb hero) */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background: var(--dark-2);
+  }
+
+  /* ---- VIDEO LAYER ---- */
+  .hero-video-wrap {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    transition: opacity 1.4s cubic-bezier(0.4,0,0.2,1);
+  }
+  .hero-video-wrap.fade-out { opacity: 0; pointer-events: none; }
+
+  #hero-vid {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* Dark gradient over video so text is readable */
+  .hero-vid-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(10,21,32,0.72) 0%,
+      rgba(10,21,32,0.45) 50%,
+      rgba(10,21,32,0.65) 100%
+    );
+  }
+
+  /* ---- CONSTELLATION IMAGES ---- */
+  .constellation {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .c-img {
+    position: absolute;
+    width: 190px;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 2.5px solid rgba(244,208,63,0.45);
+    box-shadow:
+      0 0 0 5px rgba(244,208,63,0.07),
+      0 20px 60px rgba(0,0,0,0.55),
+      0 0 40px rgba(244,208,63,0.12);
+    /* start hidden, far from position */
+    opacity: 0;
+    transform: scale(0.25) rotate(0deg);
+    filter: blur(12px);
+    transition:
+      opacity 0.85s cubic-bezier(0.34,1.56,0.64,1),
+      transform 0.85s cubic-bezier(0.34,1.56,0.64,1),
+      filter 0.7s ease;
+  }
+
+  .c-img img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* Positions & rotations for each card */
+  .c-img-1 { top: 8vh;  left: 3vw;  width:200px; aspect-ratio:3/4; transform-origin: top left;    }
+  .c-img-2 { top: 6vh;  right:3vw;  width:185px; aspect-ratio:4/3; transform-origin: top right;   }
+  .c-img-3 { top: 42%;  left: 1vw;  width:175px; aspect-ratio:3/4; transform-origin: left center; }
+  .c-img-4 { top: 40%;  right:1vw;  width:185px; aspect-ratio:4/3; transform-origin: right center;}
+  .c-img-5 { bottom:6vh;left: 6vw;  width:195px; aspect-ratio:4/3; transform-origin: bottom left; }
+  .c-img-6 { bottom:5vh;right:5vw;  width:175px; aspect-ratio:3/4; transform-origin: bottom right;}
+
+  /* When .active — fly in to final position */
+  .c-img.active {
+    opacity: 1;
+    filter: blur(0);
+  }
+  .c-img-1.active { transform: rotate(-8deg) scale(1); animation: floatCard1 7s ease-in-out 0.85s infinite; }
+  .c-img-2.active { transform: rotate(6deg)  scale(1); animation: floatCard2 8s ease-in-out 0.85s infinite; }
+  .c-img-3.active { transform: rotate(-5deg) scale(1); animation: floatCard3 6s ease-in-out 0.85s infinite; }
+  .c-img-4.active { transform: rotate(7deg)  scale(1); animation: floatCard4 7.5s ease-in-out 0.85s infinite; }
+  .c-img-5.active { transform: rotate(-10deg)scale(1); animation: floatCard5 9s ease-in-out 0.85s infinite; }
+  .c-img-6.active { transform: rotate(5deg)  scale(1); animation: floatCard6 6.5s ease-in-out 0.85s infinite; }
+
+  /* Unique float paths for each card so they feel alive */
+  @keyframes floatCard1 {
+    0%,100% { transform: rotate(-8deg) translate(0,0); }
+    33%      { transform: rotate(-6deg) translate(8px,-14px); }
+    66%      { transform: rotate(-10deg) translate(-6px,8px); }
+  }
+  @keyframes floatCard2 {
+    0%,100% { transform: rotate(6deg) translate(0,0); }
+    40%     { transform: rotate(8deg) translate(-10px,12px); }
+    70%     { transform: rotate(4deg) translate(6px,-10px); }
+  }
+  @keyframes floatCard3 {
+    0%,100% { transform: rotate(-5deg) translate(0,0); }
+    50%     { transform: rotate(-7deg) translate(12px,-16px); }
+  }
+  @keyframes floatCard4 {
+    0%,100% { transform: rotate(7deg) translate(0,0); }
+    35%     { transform: rotate(5deg) translate(-8px,14px); }
+    70%     { transform: rotate(9deg) translate(4px,-8px); }
+  }
+  @keyframes floatCard5 {
+    0%,100% { transform: rotate(-10deg) translate(0,0); }
+    45%     { transform: rotate(-8deg) translate(14px,-12px); }
+  }
+  @keyframes floatCard6 {
+    0%,100% { transform: rotate(5deg) translate(0,0); }
+    38%     { transform: rotate(7deg) translate(-12px,10px); }
+    72%     { transform: rotate(3deg) translate(8px,-14px); }
+  }
+
+  /* Glowing ring around each card */
+  .c-img::after {
+    content: '';
+    position: absolute; inset: 0;
+    border-radius: 20px;
+    box-shadow: inset 0 0 30px rgba(244,208,63,0.06);
+    pointer-events: none;
+  }
+
+  /* Label on each floating card */
+  .c-label {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    background: linear-gradient(to top, rgba(10,21,32,0.9) 0%, transparent 100%);
+    padding: 18px 12px 10px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 0.68rem;
+    color: var(--accent);
+    letter-spacing: 0.5px;
+    text-align: center;
+  }
+
+  /* ---- CONSTELLATION BACKGROUND (shows after video) ---- */
+  .hero-post-bg {
+    position: absolute; inset: 0; z-index: 0;
+    opacity: 0;
+    transition: opacity 1.2s ease 0.4s;
+  }
+  .hero-post-bg.show { opacity: 1; }
+
+  /* ---- HERO INNER (text) ---- */
+  .hero-content-wrap {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+  }
+
+  /* Transition hint — pulse the video play indicator */
+  .vid-progress {
+    position: absolute;
+    bottom: 20px; left: 50%;
+    transform: translateX(-50%);
+    z-index: 20;
+    display: flex; align-items: center; gap: 10px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.72rem; font-weight: 600;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: opacity 0.6s ease;
+  }
+  .vid-progress.hide { opacity: 0; pointer-events: none; }
+  .vid-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 8px var(--accent);
+    animation: dotPulse 1s ease-in-out infinite;
+  }
+
+  /* ---- BEFORE/AFTER SECTION ---- */
+  .ba-section {
+    background: var(--dark);
+    padding: 100px 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .ba-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    margin-top: 60px;
+  }
+  .ba-card {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    transition: var(--transition);
+    position: relative;
+  }
+  .ba-card:hover { transform: translateY(-8px); box-shadow: 0 24px 70px rgba(0,0,0,0.4); }
+  .ba-card video {
+    width: 100%; display: block;
+    max-height: 420px; object-fit: cover;
+  }
+  .ba-card-label {
+    padding: 16px 20px;
+    font-family: 'Poppins', sans-serif; font-weight: 700;
+    font-size: 0.82rem; color: var(--accent);
+    letter-spacing: 1px; text-transform: uppercase;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    background: rgba(10,21,32,0.6);
+  }
+
+  /* ---- GALLERY uses real images ---- */
+  .gallery-tile img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    position: absolute; inset: 0;
+    transition: transform 0.5s ease;
+  }
+  .gallery-tile:hover img { transform: scale(1.07); }
+
+  /* Mobile adjustments for constellation */
+  @media (max-width: 900px) {
+    .c-img-1, .c-img-2 { display: none; }
+    .c-img-3 { left: 0; width: 130px; top: 30%; }
+    .c-img-4 { right: 0; width: 130px; top: 30%; }
+    .c-img-5 { bottom: 2vh; left: 2vw; width: 140px; }
+    .c-img-6 { bottom: 2vh; right: 2vw; width: 130px; }
+  }
+  @media (max-width: 600px) {
+    .c-img { display: none; }
+  }
+  </style>
 </head>
 <body>
 
 <!-- PAGE LOADER -->
 <div class="page-loader" id="loader">
-  <div class="loader-logo">
-    <div class="logo-tooth">🦷</div>
-    I-<span>Smile</span>
-  </div>
+  <div class="loader-logo"><div class="logo-tooth">🦷</div>I-<span>Smile</span></div>
   <div class="loader-bar"><div class="loader-fill"></div></div>
   <div class="loader-tagline">Smile Bright · Live Bright</div>
 </div>
@@ -33,16 +270,13 @@
 <!-- CUSTOM CURSOR -->
 <div class="cursor" id="cursor"></div>
 <div class="cursor-ring" id="cursor-ring"></div>
-
-<!-- SCROLL TO TOP -->
 <button class="scroll-top" id="scroll-top" aria-label="Scroll to top">↑</button>
 
 <!-- NAVBAR -->
 <nav class="navbar" id="navbar">
   <div class="nav-container">
     <a href="index.html" class="nav-logo">
-      <div class="logo-icon">🦷</div>
-      I-<span>Smile</span>
+      <div class="logo-icon">🦷</div>I-<span>Smile</span>
     </a>
     <ul class="nav-links">
       <li><a href="index.html" class="active">Home</a></li>
@@ -58,120 +292,104 @@
     </button>
   </div>
 </nav>
-
 <div class="mobile-menu" id="mobile-menu">
-  <a href="index.html">Home</a>
-  <a href="about.html">About Us</a>
-  <a href="services.html">Services</a>
-  <a href="gallery.html">Gallery</a>
-  <a href="testimonials.html">Testimonials</a>
-  <a href="contact.html">Contact</a>
+  <a href="index.html">Home</a><a href="about.html">About Us</a>
+  <a href="services.html">Services</a><a href="gallery.html">Gallery</a>
+  <a href="testimonials.html">Testimonials</a><a href="contact.html">Contact</a>
   <a href="contact.html" class="mob-cta">📅 Book Appointment</a>
 </div>
 <div class="menu-overlay" id="menu-overlay"></div>
 
-<!-- ====================
-     HERO
-==================== -->
-<section class="hero">
-  <!-- Animated mesh background -->
-  <div class="hero-mesh"></div>
-  <div class="hero-blob hero-blob-1"></div>
-  <div class="hero-blob hero-blob-2"></div>
-  <div class="hero-blob hero-blob-3"></div>
-  <div class="hero-grid"></div>
+<!-- ========================================
+     HERO — VIDEO → CONSTELLATION
+======================================== -->
+<section class="hero" id="hero">
 
-  <!-- Floating particles -->
-  <div class="hero-particles">
-    <div class="hp"></div><div class="hp"></div><div class="hp"></div>
-    <div class="hp"></div><div class="hp"></div><div class="hp"></div>
-    <div class="hp"></div><div class="hp"></div><div class="hp"></div>
-    <div class="hp"></div><div class="hp"></div><div class="hp"></div>
+  <!-- Ambient blobs (always behind) -->
+  <div class="hero-post-bg" id="hero-post-bg">
+    <div class="hero-blob hero-blob-1"></div>
+    <div class="hero-blob hero-blob-2"></div>
+    <div class="hero-blob hero-blob-3"></div>
+    <div class="hero-grid"></div>
   </div>
 
-  <div class="hero-bottom-fade"></div>
+  <!-- Video layer -->
+  <div class="hero-video-wrap" id="hero-video-wrap">
+    <video id="hero-vid" playsinline muted autoplay preload="auto"
+           poster="media/images/dentist-team.jpg">
+      <source src="media/videos/hero.mp4" type="video/mp4" />
+    </video>
+    <div class="hero-vid-overlay"></div>
+  </div>
 
-  <div class="hero-inner">
-    <!-- LEFT TEXT -->
-    <div class="hero-text">
-      <div class="hero-badge">
-        <span class="live-dot"></span>
-        Now Accepting New Patients · Two Branches in Gbagada
-      </div>
-
-      <h1 class="hero-title">
-        Smile Bright.<br/>
-        <span class="yellow-line">Live Bright.</span>
-      </h1>
-
-      <p class="hero-sub">
-        Affordable, expert dental care for every family in Gbagada, Lagos.
-        From routine check-ups to full smile transformations — world-class dentistry right in your neighbourhood.
-      </p>
-
-      <div class="hero-btns">
-        <a href="contact.html" class="btn btn-primary">
-          📅 Book Appointment
-        </a>
-        <a href="services.html" class="btn btn-glass">
-          Explore Services →
-        </a>
-      </div>
-
-      <div class="hero-proof">
-        <div class="proof-avatars">
-          <div class="av">😁</div>
-          <div class="av">😄</div>
-          <div class="av">🙂</div>
-          <div class="av">😀</div>
-        </div>
-        <div class="proof-text">
-          Trusted by <strong>hundreds of families</strong><br/>across Gbagada, Lagos
-        </div>
-      </div>
+  <!-- Constellation — 6 floating photo cards -->
+  <div class="constellation" id="constellation">
+    <div class="c-img c-img-1" id="ci1">
+      <img src="media/images/dentist-team.jpg" alt="I-Smile dental team at work" loading="lazy" />
+      <div class="c-label">Expert Team</div>
     </div>
+    <div class="c-img c-img-2" id="ci2">
+      <img src="media/images/whitening.jpg" alt="Professional teeth whitening" loading="lazy" />
+      <div class="c-label">Whitening</div>
+    </div>
+    <div class="c-img c-img-3" id="ci3">
+      <img src="media/images/treatment-drill.jpg" alt="Dental treatment in progress" loading="lazy" />
+      <div class="c-label">Precision Care</div>
+    </div>
+    <div class="c-img c-img-4" id="ci4">
+      <img src="media/images/treatment-2.jpg" alt="Dentist treating patient" loading="lazy" />
+      <div class="c-label">Gentle Touch</div>
+    </div>
+    <div class="c-img c-img-5" id="ci5">
+      <img src="media/images/happy-patient.jpg" alt="Happy smiling patient after treatment" loading="lazy" />
+      <div class="c-label">Happy Smiles</div>
+    </div>
+    <div class="c-img c-img-6" id="ci6">
+      <img src="media/images/dentist-male.jpg" alt="Dentist at work" loading="lazy" />
+      <div class="c-label">Trusted Doctors</div>
+    </div>
+  </div>
 
-    <!-- RIGHT VISUAL -->
-    <div class="hero-visual">
-      <div class="tooth-3d-wrap">
-        <!-- Orbit rings -->
-        <div class="orbit-ring orbit-1">
-          <div class="orbit-dot"></div>
-        </div>
-        <div class="orbit-ring orbit-2">
-          <div class="orbit-dot"></div>
-        </div>
+  <!-- Video playing indicator -->
+  <div class="vid-progress" id="vid-progress">
+    <div class="vid-dot"></div>
+    Live from our clinic
+  </div>
 
-        <!-- Central orb -->
-        <div class="tooth-orb">
-          <div class="tooth-emoji">🦷</div>
+  <!-- Hero text (always visible) -->
+  <div class="hero-content-wrap">
+    <div class="hero-inner">
+      <!-- LEFT TEXT -->
+      <div class="hero-text">
+        <div class="hero-badge">
+          <span class="live-dot"></span>
+          Now Accepting New Patients · Two Branches in Gbagada
         </div>
-
-        <!-- Floating info chips -->
-        <div class="float-chip float-chip-1">
-          <div class="chip-icon">✨</div>
-          <div class="chip-text">
-            <strong>Teeth Whitening</strong>
-            <span>Up to 8 shades brighter</span>
+        <h1 class="hero-title">
+          Smile Bright.<br/>
+          <span class="yellow-line">Live Bright.</span>
+        </h1>
+        <p class="hero-sub">
+          Affordable, expert dental care for every family in Gbagada, Lagos.
+          From routine check-ups to full smile transformations — world-class dentistry right in your neighbourhood.
+        </p>
+        <div class="hero-btns">
+          <a href="contact.html" class="btn btn-primary">📅 Book Appointment</a>
+          <a href="services.html" class="btn btn-glass">Explore Services →</a>
+        </div>
+        <div class="hero-proof">
+          <div class="proof-avatars">
+            <div class="av">😁</div><div class="av">😄</div>
+            <div class="av">🙂</div><div class="av">😀</div>
           </div>
-        </div>
-
-        <div class="float-chip float-chip-2">
-          <div class="chip-icon">📍</div>
-          <div class="chip-text">
-            <strong>2 Locations</strong>
-            <span>Both in Gbagada</span>
-          </div>
-        </div>
-
-        <div class="float-chip float-chip-3">
-          <div class="chip-icon">👨‍👩‍👧</div>
-          <div class="chip-text">
-            <strong>All Ages Welcome</strong>
-            <span>Kids to adults</span>
+          <div class="proof-text">
+            Trusted by <strong>hundreds of families</strong><br/>across Gbagada, Lagos
           </div>
         </div>
       </div>
+
+      <!-- RIGHT: empty on mobile, constellation fills the space -->
+      <div class="hero-visual" style="visibility:hidden;pointer-events:none;"></div>
     </div>
   </div>
 
@@ -192,7 +410,7 @@
         <div class="stat-label">Locations in Gbagada</div>
       </div>
       <div class="stat-item">
-        <div class="stat-number" style="font-size:2.4rem;background:linear-gradient(135deg,var(--accent),#fff176);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">All Ages</div>
+        <div class="stat-number" style="font-size:2.2rem;background:linear-gradient(135deg,var(--accent),#fff176);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">All Ages</div>
         <div class="stat-label">Welcome — Kids to Adults</div>
       </div>
       <div class="stat-item">
@@ -200,7 +418,7 @@
         <div class="stat-label">Specialist Treatments</div>
       </div>
       <div class="stat-item">
-        <div class="stat-number" style="font-size:2.4rem;background:linear-gradient(135deg,var(--accent),#fff176);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Expert</div>
+        <div class="stat-number" style="font-size:2.2rem;background:linear-gradient(135deg,var(--accent),#fff176);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Expert</div>
         <div class="stat-label">Friendly Professional Team</div>
       </div>
     </div>
@@ -224,87 +442,64 @@
     </div>
 
     <div class="services-grid stagger-children">
-      <div class="svc-card reveal delay-1">
-        <div class="svc-inner">
-          <div class="svc-front">
-            <div class="svc-icon">✨</div>
-            <h3>Teeth Whitening</h3>
-          </div>
-          <div class="svc-back">
-            <p>Brighten your smile up to 8 shades in just one visit with professional-grade whitening technology.</p>
-            <a href="services.html#whitening" class="svc-back-btn">Learn More</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="svc-card reveal delay-2">
-        <div class="svc-inner">
-          <div class="svc-front">
-            <div class="svc-icon">🦷</div>
-            <h3>Dental Implants</h3>
-          </div>
-          <div class="svc-back">
-            <p>Permanent, natural-looking tooth replacement that looks, feels and functions like your real teeth.</p>
-            <a href="services.html#implants" class="svc-back-btn">Learn More</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="svc-card reveal delay-3">
-        <div class="svc-inner">
-          <div class="svc-front">
-            <div class="svc-icon">😁</div>
-            <h3>Braces & Orthodontics</h3>
-          </div>
-          <div class="svc-back">
-            <p>Traditional and modern braces for all ages. Straighten your smile and boost your confidence.</p>
-            <a href="services.html#braces" class="svc-back-btn">Learn More</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="svc-card reveal delay-2">
-        <div class="svc-inner">
-          <div class="svc-front">
-            <div class="svc-icon">🩺</div>
-            <h3>Root Canal</h3>
-          </div>
-          <div class="svc-back">
-            <p>Save your natural tooth pain-free. Our gentle root canal therapy is comfortable and effective.</p>
-            <a href="services.html#rootcanal" class="svc-back-btn">Learn More</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="svc-card reveal delay-3">
-        <div class="svc-inner">
-          <div class="svc-front">
-            <div class="svc-icon">👑</div>
-            <h3>Crowns & Bridges</h3>
-          </div>
-          <div class="svc-back">
-            <p>Restore damaged or missing teeth beautifully with custom-made, natural-looking crowns and bridges.</p>
-            <a href="services.html#crowns" class="svc-back-btn">Learn More</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="svc-card reveal delay-4">
-        <div class="svc-inner">
-          <div class="svc-front">
-            <div class="svc-icon">🪥</div>
-            <h3>Scaling & Polishing</h3>
-          </div>
-          <div class="svc-back">
-            <p>Deep professional clean that removes plaque and tartar for healthier gums and a brighter smile.</p>
-            <a href="services.html#scaling" class="svc-back-btn">Learn More</a>
-          </div>
-        </div>
-      </div>
+      <div class="svc-card reveal delay-1"><div class="svc-inner">
+        <div class="svc-front"><div class="svc-icon">✨</div><h3>Teeth Whitening</h3></div>
+        <div class="svc-back"><p>Brighten your smile up to 8 shades in just one visit with professional-grade whitening technology.</p><a href="services.html#whitening" class="svc-back-btn">Learn More</a></div>
+      </div></div>
+      <div class="svc-card reveal delay-2"><div class="svc-inner">
+        <div class="svc-front"><div class="svc-icon">🦷</div><h3>Dental Implants</h3></div>
+        <div class="svc-back"><p>Permanent, natural-looking tooth replacement that looks, feels and functions like your real teeth.</p><a href="services.html#implants" class="svc-back-btn">Learn More</a></div>
+      </div></div>
+      <div class="svc-card reveal delay-3"><div class="svc-inner">
+        <div class="svc-front"><div class="svc-icon">😁</div><h3>Braces &amp; Orthodontics</h3></div>
+        <div class="svc-back"><p>Traditional and modern braces for all ages. Straighten your smile and boost your confidence.</p><a href="services.html#braces" class="svc-back-btn">Learn More</a></div>
+      </div></div>
+      <div class="svc-card reveal delay-2"><div class="svc-inner">
+        <div class="svc-front"><div class="svc-icon">🩺</div><h3>Root Canal</h3></div>
+        <div class="svc-back"><p>Save your natural tooth pain-free. Our gentle root canal therapy is comfortable and effective.</p><a href="services.html#rootcanal" class="svc-back-btn">Learn More</a></div>
+      </div></div>
+      <div class="svc-card reveal delay-3"><div class="svc-inner">
+        <div class="svc-front"><div class="svc-icon">👑</div><h3>Crowns &amp; Bridges</h3></div>
+        <div class="svc-back"><p>Restore damaged or missing teeth beautifully with custom-made, natural-looking crowns and bridges.</p><a href="services.html#crowns" class="svc-back-btn">Learn More</a></div>
+      </div></div>
+      <div class="svc-card reveal delay-4"><div class="svc-inner">
+        <div class="svc-front"><div class="svc-icon">🪥</div><h3>Scaling &amp; Polishing</h3></div>
+        <div class="svc-back"><p>Deep professional clean that removes plaque and tartar for healthier gums and a brighter smile.</p><a href="services.html#scaling" class="svc-back-btn">Learn More</a></div>
+      </div></div>
     </div>
 
     <div class="text-center reveal" style="margin-top:50px;">
       <a href="services.html" class="btn btn-navy">View All 9 Services →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ====================
+     BEFORE & AFTER VIDEOS
+==================== -->
+<section class="ba-section">
+  <div class="mesh-blob blob-blue float-slow" style="position:absolute;width:600px;height:600px;top:-200px;left:-150px;opacity:0.14;border-radius:50%;filter:blur(90px);background:radial-gradient(circle,var(--primary-light) 0%,transparent 70%);"></div>
+  <div class="grid-overlay"></div>
+  <div class="container" style="position:relative;z-index:1;">
+    <div class="text-center reveal" style="margin-bottom:0;">
+      <div class="chip"><span class="dot"></span>Real Results</div>
+      <h2 class="h2 h2-white">Before &amp; After <span class="gradient-text">Transformations</span></h2>
+      <div class="glow-line"></div>
+      <p class="lead" style="margin:0 auto;">Watch real smile transformations from patients right here at I-Smile Dental Clinic, Gbagada.</p>
+    </div>
+    <div class="ba-grid">
+      <div class="ba-card reveal-left">
+        <video controls preload="metadata" poster="media/images/happy-patient.jpg">
+          <source src="media/videos/before-after.mp4" type="video/mp4" />
+        </video>
+        <div class="ba-card-label">✨ Smile Transformation #1 — Teeth Whitening</div>
+      </div>
+      <div class="ba-card reveal-right">
+        <video controls preload="metadata" poster="media/images/dentist-male.jpg">
+          <source src="media/videos/before-after-2.mp4" type="video/mp4" />
+        </video>
+        <div class="ba-card-label">✨ Smile Transformation #2 — Full Restoration</div>
+      </div>
     </div>
   </div>
 </section>
@@ -323,44 +518,23 @@
     <!-- Row 1 -->
     <div class="zigzag-row">
       <div class="zz-visual reveal-left">
-        <div class="zz-img-box" data-tilt data-tilt-max="8" data-tilt-speed="500" data-tilt-glare="true" data-tilt-max-glare="0.1">
-          <div class="zz-big-icon">📍</div>
+        <div class="zz-img-box" data-tilt data-tilt-max="8" data-tilt-speed="500" data-tilt-glare="true" data-tilt-max-glare="0.1" style="aspect-ratio:4/3;overflow:hidden;">
+          <img src="media/images/dentist-team.jpg" alt="I-Smile dental team" style="width:100%;height:100%;object-fit:cover;opacity:0.9;" />
         </div>
         <div class="zz-badge">
           <div class="num">2</div>
-          <div class="lbl">Branches Serving Gbagada</div>
+          <div class="lbl">Branches in Gbagada</div>
         </div>
       </div>
-
       <div class="zz-text reveal-right">
-        <div class="chip" style="background:rgba(27,79,114,0.08);border-color:rgba(27,79,114,0.2);color:var(--primary);"><span class="dot" style="background:var(--primary);box-shadow:0 0 6px var(--primary);"></span>Our Locations</div>
+        <div class="chip" style="background:rgba(27,79,114,0.08);border-color:rgba(27,79,114,0.2);color:var(--primary);"><span class="dot" style="background:var(--primary);"></span>Our Locations</div>
         <h3 class="h3" style="color:var(--dark);margin-bottom:16px;">Two Locations,<br/>One Community</h3>
-        <p class="lead lead-dark" style="margin-bottom:28px;">With branches on Orile Pedeoro Compound and Church Street, we are right in your neighbourhood — ready to serve you and your whole family. No long commutes. World-class dental care is minutes away.</p>
-
+        <p class="lead lead-dark" style="margin-bottom:28px;">With branches on Orile Pedeoro Compound and Church Street, we are right in your neighbourhood — ready to serve you and your whole family.</p>
         <div class="zz-features">
-          <div class="zz-feat">
-            <div class="zz-feat-icon">📍</div>
-            <div>
-              <strong>Branch 1 — Orile Pedeoro</strong>
-              <span>5, Orile Pedeoro Compound Pedro, Gbagada</span>
-            </div>
-          </div>
-          <div class="zz-feat">
-            <div class="zz-feat-icon">📍</div>
-            <div>
-              <strong>Branch 2 — Church Street</strong>
-              <span>12, Church Street, Gbagada, Lagos</span>
-            </div>
-          </div>
-          <div class="zz-feat">
-            <div class="zz-feat-icon">🕐</div>
-            <div>
-              <strong>Open Monday – Saturday</strong>
-              <span>8:00am – 6:00pm every day we're open</span>
-            </div>
-          </div>
+          <div class="zz-feat"><div class="zz-feat-icon">📍</div><div><strong>Branch 1 — Orile Pedeoro</strong><span>5, Orile Pedeoro Compound Pedro, Gbagada</span></div></div>
+          <div class="zz-feat"><div class="zz-feat-icon">📍</div><div><strong>Branch 2 — Church Street</strong><span>12, Church Street, Gbagada, Lagos</span></div></div>
+          <div class="zz-feat"><div class="zz-feat-icon">🕐</div><div><strong>Open Monday – Saturday</strong><span>8:00am – 6:00pm</span></div></div>
         </div>
-
         <a href="contact.html" class="btn btn-primary" style="margin-top:8px;">Get Directions 🗺️</a>
       </div>
     </div>
@@ -368,67 +542,26 @@
     <!-- Row 2 -->
     <div class="zigzag-row flip">
       <div class="zz-visual reveal-right">
-        <div class="zz-phone-box" data-tilt data-tilt-max="8" data-tilt-speed="500">
-          <div class="phone-3d">
-            <div class="phone-screen">
-              <div class="phone-notch"></div>
-              <div class="phone-header">
-                <div class="ph-logo">🦷</div>
-                <div>
-                  <div class="ph-title">I-Smile Dental</div>
-                  <div class="ph-sub">Book Appointment</div>
-                </div>
-              </div>
-              <div class="phone-cal-row">
-                <div class="pc">Mon</div>
-                <div class="pc act">Tue</div>
-                <div class="pc">Wed</div>
-                <div class="pc">Thu</div>
-              </div>
-              <div class="phone-slots">
-                <div class="ps">9:00 AM <span class="avail">Available</span></div>
-                <div class="ps">11:30 AM <span class="avail">Available</span></div>
-                <div class="ps">2:00 PM <span class="taken">Booked</span></div>
-                <div class="ps">4:30 PM <span class="avail">Available</span></div>
-              </div>
-              <div class="phone-book-btn">Confirm Booking ✓</div>
-            </div>
-          </div>
+        <div class="zz-img-box" data-tilt data-tilt-max="6" data-tilt-speed="500" style="aspect-ratio:3/4;overflow:hidden;">
+          <img src="media/images/happy-patient.jpg" alt="Happy patient at I-Smile" style="width:100%;height:100%;object-fit:cover;opacity:0.9;" />
+        </div>
+        <div class="zz-badge" style="right:auto;left:-20px;">
+          <div class="num">😁</div>
+          <div class="lbl">Hundreds of Happy Patients</div>
         </div>
       </div>
-
       <div class="zz-text reveal-left">
-        <div class="chip" style="background:rgba(27,79,114,0.08);border-color:rgba(27,79,114,0.2);color:var(--primary);"><span class="dot" style="background:var(--primary);box-shadow:0 0 6px var(--primary);"></span>Easy Booking</div>
+        <div class="chip" style="background:rgba(27,79,114,0.08);border-color:rgba(27,79,114,0.2);color:var(--primary);"><span class="dot" style="background:var(--primary);"></span>Easy Booking</div>
         <h3 class="h3" style="color:var(--dark);margin-bottom:16px;">Book in Seconds,<br/>Not Minutes</h3>
-        <p class="lead lead-dark" style="margin-bottom:28px;">Getting your appointment at I-Smile is simple. Call us, WhatsApp us, or walk in — our warm, professional team is always ready to receive you with a smile.</p>
-
+        <p class="lead lead-dark" style="margin-bottom:28px;">Call us, WhatsApp us, or walk in — our warm, professional team is always ready to receive you with a smile.</p>
         <div class="zz-features">
-          <div class="zz-feat">
-            <div class="zz-feat-icon">📞</div>
-            <div>
-              <strong>Call or WhatsApp</strong>
-              <span>Reach us instantly on <a href="tel:+2348133557279" style="color:var(--primary);font-weight:700;">08133557279</a></span>
-            </div>
-          </div>
-          <div class="zz-feat">
-            <div class="zz-feat-icon">🚶</div>
-            <div>
-              <strong>Walk-Ins Welcome</strong>
-              <span>No appointment? Walk right in — we'll see you!</span>
-            </div>
-          </div>
-          <div class="zz-feat">
-            <div class="zz-feat-icon">💛</div>
-            <div>
-              <strong>Warm, Stress-Free Experience</strong>
-              <span>We ensure you're comfortable from the first moment</span>
-            </div>
-          </div>
+          <div class="zz-feat"><div class="zz-feat-icon">📞</div><div><strong>Call or WhatsApp</strong><span><a href="tel:+2348133557279" style="color:var(--primary);font-weight:700;">08133557279</a></span></div></div>
+          <div class="zz-feat"><div class="zz-feat-icon">🚶</div><div><strong>Walk-Ins Welcome</strong><span>No appointment? Walk right in!</span></div></div>
+          <div class="zz-feat"><div class="zz-feat-icon">💛</div><div><strong>Warm &amp; Stress-Free</strong><span>We ensure you're comfortable from the first moment</span></div></div>
         </div>
-
         <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px;">
           <a href="tel:+2348133557279" class="btn btn-primary">📞 Call Now</a>
-          <a href="https://wa.me/2348133557279?text=Hi%2C%20I%27d%20like%20to%20book%20an%20appointment" target="_blank" rel="noopener" class="btn btn-navy">💬 WhatsApp</a>
+          <a href="https://wa.me/2348133557279" target="_blank" rel="noopener" class="btn btn-navy">💬 WhatsApp</a>
         </div>
       </div>
     </div>
@@ -448,7 +581,7 @@
     <div class="marquee-card"><div class="marquee-stars">⭐⭐⭐⭐⭐</div><p>"Two locations in Gbagada — so convenient! Clean clinic, great team. Highly recommend."</p><div class="marquee-author">— Tunde F., Gbagada</div></div>
     <div class="marquee-card"><div class="marquee-stars">⭐⭐⭐⭐⭐</div><p>"Fixed my broken tooth in one visit. The team was so professional and explained everything."</p><div class="marquee-author">— Adunola K., Gbagada</div></div>
     <div class="marquee-card"><div class="marquee-stars">⭐⭐⭐⭐⭐</div><p>"Best dental clinic in Gbagada, hands down. Affordable without compromising quality at all."</p><div class="marquee-author">— Chukwuma O., Lagos</div></div>
-    <!-- Duplicates for seamless loop -->
+    <!-- duplicates for loop -->
     <div class="marquee-card"><div class="marquee-stars">⭐⭐⭐⭐⭐</div><p>"The doctors are so gentle and patient. My kids actually look forward to dental visits now!"</p><div class="marquee-author">— Mrs. Okonkwo, Gbagada</div></div>
     <div class="marquee-card"><div class="marquee-stars">⭐⭐⭐⭐⭐</div><p>"I've been to many dental clinics in Lagos — I-Smile is the best value for money I've found."</p><div class="marquee-author">— Emeka D., Pedro</div></div>
     <div class="marquee-card"><div class="marquee-stars">⭐⭐⭐⭐⭐</div><p>"Got my teeth whitened and the result was amazing. Staff made me so comfortable throughout."</p><div class="marquee-author">— Bisi A., Gbagada</div></div>
@@ -462,10 +595,7 @@
      LOCATIONS PREVIEW
 ==================== -->
 <section class="section bg-dark-section">
-  <div class="mesh-bg">
-    <div class="mesh-blob blob-blue float-slow" style="width:500px;height:500px;top:-150px;left:-100px;opacity:0.2;"></div>
-    <div class="mesh-blob blob-yellow float-med" style="width:300px;height:300px;bottom:-80px;right:5%;opacity:0.06;"></div>
-  </div>
+  <div class="mesh-blob blob-blue float-slow" style="position:absolute;width:500px;height:500px;top:-150px;left:-100px;opacity:0.2;border-radius:50%;filter:blur(80px);background:radial-gradient(circle,var(--primary-light) 0%,transparent 70%);"></div>
   <div class="grid-overlay"></div>
   <div class="container" style="position:relative;z-index:1;">
     <div class="text-center reveal" style="margin-bottom:60px;">
@@ -474,11 +604,11 @@
       <div class="glow-line"></div>
       <p class="lead" style="margin:16px auto 0;">Both branches are in the heart of Gbagada. Walk in or book ahead — we're always ready for you.</p>
     </div>
-
     <div class="locs-grid">
       <div class="location-card reveal-left">
-        <div class="location-map">
-          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3964.0!2d3.3890!3d6.5580!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103b8d!2zGbagada!5e0!3m2!1sen!2sng" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Branch 1 Orile Pedeoro Gbagada"></iframe>
+        <div class="location-map" style="position:relative;height:220px;overflow:hidden;background:#0a1d2e;">
+          <img src="media/images/clinic-chair.jpg" alt="I-Smile Dental Clinic interior" style="width:100%;height:100%;object-fit:cover;opacity:0.7;" />
+          <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(10,21,32,0.6) 0%,transparent 60%);"></div>
         </div>
         <div class="location-info">
           <div class="location-badge">Branch 1</div>
@@ -491,10 +621,10 @@
           <a href="https://maps.google.com/?q=Orile+Pedeoro+Compound+Pedro+Gbagada+Lagos" target="_blank" rel="noopener" class="btn btn-primary" style="width:100%;justify-content:center;">🗺️ Get Directions</a>
         </div>
       </div>
-
       <div class="location-card reveal-right">
-        <div class="location-map">
-          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3964.0!2d3.3950!3d6.5600!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103b8d!2zChurch+Street!5e0!3m2!1sen!2sng" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Branch 2 Church Street Gbagada"></iframe>
+        <div class="location-map" style="position:relative;height:220px;overflow:hidden;background:#0a1d2e;">
+          <img src="media/images/clinic-exterior.jpg" alt="I-Smile Dental Clinic exterior Gbagada" style="width:100%;height:100%;object-fit:cover;opacity:0.85;" />
+          <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(10,21,32,0.6) 0%,transparent 60%);"></div>
         </div>
         <div class="location-info">
           <div class="location-badge">Branch 2</div>
@@ -511,24 +641,20 @@
   </div>
 </section>
 
-<!-- ====================
-     FOOTER CTA
-==================== -->
+<!-- FOOTER CTA -->
 <section class="footer-cta">
   <div class="container">
     <h2>Ready to Transform Your Smile?</h2>
     <p>Join hundreds of happy families in Gbagada who trust I-Smile for all their dental needs.</p>
     <div class="footer-cta-btns">
-      <a href="tel:+2348133557279" class="btn" style="background:var(--dark);color:white;box-shadow:0 4px 20px rgba(0,0,0,0.3);">📞 Call Now</a>
-      <a href="https://wa.me/2348133557279?text=Hi%2C%20I%27d%20like%20to%20book%20an%20appointment%20at%20I-Smile%20Dental%20Clinic" target="_blank" rel="noopener" class="btn" style="background:var(--dark);color:white;">💬 WhatsApp Us</a>
+      <a href="tel:+2348133557279" class="btn" style="background:var(--dark);color:white;">📞 Call Now</a>
+      <a href="https://wa.me/2348133557279" target="_blank" rel="noopener" class="btn" style="background:var(--dark);color:white;">💬 WhatsApp Us</a>
       <a href="contact.html" class="btn btn-navy">📅 Book Online</a>
     </div>
   </div>
 </section>
 
-<!-- ====================
-     FOOTER
-==================== -->
+<!-- FOOTER -->
 <footer>
   <div class="container">
     <div class="footer-grid">
@@ -541,37 +667,25 @@
           <a href="tel:+2348133557279" title="Call Us">📞</a>
         </div>
       </div>
-      <div class="footer-col">
-        <h4>Quick Links</h4>
-        <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="about.html">About Us</a></li>
-          <li><a href="services.html">Services</a></li>
-          <li><a href="gallery.html">Gallery</a></li>
-          <li><a href="testimonials.html">Testimonials</a></li>
-          <li><a href="contact.html">Contact</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Services</h4>
-        <ul>
-          <li><a href="services.html#whitening">Teeth Whitening</a></li>
-          <li><a href="services.html#implants">Dental Implants</a></li>
-          <li><a href="services.html#braces">Braces & Orthodontics</a></li>
-          <li><a href="services.html#rootcanal">Root Canal</a></li>
-          <li><a href="services.html#cosmetic">Cosmetic Dentistry</a></li>
-          <li><a href="services.html#pediatric">Pediatric Dentistry</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Contact</h4>
-        <ul>
-          <li><a href="tel:+2348133557279">📞 08133557279</a></li>
-          <li><a href="https://wa.me/2348133557279" target="_blank" rel="noopener">💬 WhatsApp</a></li>
-          <li><a href="https://instagram.com/ismiledentalclinic_ng" target="_blank" rel="noopener">📸 @ismiledentalclinic_ng</a></li>
-          <li style="color:rgba(255,255,255,0.3);font-size:0.82rem;padding:6px 0;">🕐 Mon–Sat: 8am–6pm</li>
-        </ul>
-      </div>
+      <div class="footer-col"><h4>Quick Links</h4><ul>
+        <li><a href="index.html">Home</a></li><li><a href="about.html">About Us</a></li>
+        <li><a href="services.html">Services</a></li><li><a href="gallery.html">Gallery</a></li>
+        <li><a href="testimonials.html">Testimonials</a></li><li><a href="contact.html">Contact</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>Services</h4><ul>
+        <li><a href="services.html#whitening">Teeth Whitening</a></li>
+        <li><a href="services.html#implants">Dental Implants</a></li>
+        <li><a href="services.html#braces">Braces &amp; Orthodontics</a></li>
+        <li><a href="services.html#rootcanal">Root Canal</a></li>
+        <li><a href="services.html#cosmetic">Cosmetic Dentistry</a></li>
+        <li><a href="services.html#pediatric">Pediatric Dentistry</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>Contact</h4><ul>
+        <li><a href="tel:+2348133557279">📞 08133557279</a></li>
+        <li><a href="https://wa.me/2348133557279" target="_blank" rel="noopener">💬 WhatsApp</a></li>
+        <li><a href="https://instagram.com/ismiledentalclinic_ng" target="_blank" rel="noopener">📸 @ismiledentalclinic_ng</a></li>
+        <li style="color:rgba(255,255,255,0.3);font-size:0.82rem;padding:6px 0;">🕐 Mon–Sat: 8am–6pm</li>
+      </ul></div>
     </div>
     <hr class="footer-divider" />
     <div class="footer-bottom">
@@ -581,14 +695,65 @@
   </div>
 </footer>
 
-<!-- ====== SCRIPTS ====== -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+<!-- SCRIPTS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
 <script src="js/main.js"></script>
 <script src="js/animations.js"></script>
+
+<script>
+/* =============================================
+   HERO VIDEO → CONSTELLATION TRANSITION
+============================================= */
+(function () {
+  const vid      = document.getElementById('hero-vid');
+  const vidWrap  = document.getElementById('hero-video-wrap');
+  const postBg   = document.getElementById('hero-post-bg');
+  const chips    = document.querySelectorAll('.c-img');
+  const vidBar   = document.getElementById('vid-progress');
+
+  // Stagger delays for each card flying in (in seconds)
+  const delays = [0, 0.15, 0.3, 0.45, 0.6, 0.75];
+
+  function launchConstellation() {
+    // 1. Fade out video layer
+    vidWrap.classList.add('fade-out');
+    vidBar.classList.add('hide');
+
+    // 2. Show dark mesh background
+    postBg.classList.add('show');
+
+    // 3. Stagger each image card in with delays
+    chips.forEach((chip, i) => {
+      setTimeout(() => {
+        chip.classList.add('active');
+      }, delays[i] * 1000 + 300); // +300ms after video starts fading
+    });
+  }
+
+  if (vid) {
+    vid.addEventListener('ended', launchConstellation);
+
+    // Fallback: if video fails to load or play, trigger after 8s
+    let fallbackTimer = setTimeout(launchConstellation, 10000);
+    vid.addEventListener('ended', () => clearTimeout(fallbackTimer));
+    vid.addEventListener('error', () => {
+      clearTimeout(fallbackTimer);
+      launchConstellation();
+    });
+
+    // If video is very short or already ended
+    vid.addEventListener('loadedmetadata', () => {
+      if (vid.duration < 1) launchConstellation();
+    });
+  } else {
+    // No video element — show constellation immediately
+    setTimeout(launchConstellation, 500);
+  }
+})();
+</script>
 
 </body>
 </html>
