@@ -14,9 +14,17 @@
   <link rel="stylesheet" href="css/components.css" />
   <link rel="stylesheet" href="css/animations.css" />
   <style>
+  /* Make each service row flex: video left, content right */
+  .svc-section {
+    display: flex;
+    gap: 36px;
+    align-items: flex-start;
+  }
+  .svc-section-content { flex: 1; min-width: 0; }
+
   .svc-video-wrap {
     flex-shrink: 0;
-    width: 260px;
+    width: 220px;
     border-radius: 18px;
     overflow: hidden;
     border: 2px solid rgba(27,79,114,0.18);
@@ -44,6 +52,7 @@
     border-radius: 20px;
   }
   @media (max-width: 768px) {
+    .svc-section { flex-direction: column; }
     .svc-video-wrap { width: 100%; }
     .svc-video-wrap video { aspect-ratio: 16/9; }
   }
