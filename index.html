@@ -93,102 +93,109 @@
   /* ---- CENTRAL METALLIC GREEN SPHERE ---- */
   .orb-sphere {
     position: absolute;
-    width: 210px; height: 210px;
+    width: 220px; height: 220px;
     border-radius: 50%;
+    z-index: 6;
     background:
-      radial-gradient(circle at 38% 28%,
-        rgba(220,255,140,0.55) 0%,
-        rgba(140,210,60,0.75) 18%,
-        rgba(90,160,20,0.85) 38%,
-        rgba(50,100,10,0.92) 58%,
-        rgba(20,40,5,1) 78%,
-        rgba(8,15,2,1) 100%
+      radial-gradient(circle at 36% 30%,
+        rgba(255,255,255,0.55) 0%,
+        rgba(210,240,160,0.45) 7%,
+        rgba(140,210,50,0.85) 18%,
+        rgba(100,190,25,0.92) 32%,
+        rgba(70,145,15,0.95) 48%,
+        rgba(40,90,8,1)       62%,
+        rgba(25,50,5,1)       74%,
+        rgba(14,22,4,1)       85%,
+        rgba(8,12,3,1)        100%
       );
     box-shadow:
-      inset -30px -30px 70px rgba(0,0,0,0.85),
-      inset 12px 14px 40px rgba(180,255,80,0.18),
-      inset 4px 4px 16px rgba(255,255,200,0.12),
-      0 0 55px rgba(100,200,20,0.28),
-      0 0 110px rgba(80,160,10,0.14),
-      0 0 6px rgba(180,255,80,0.2);
-    z-index: 5;
+      inset -40px -40px 90px rgba(0,0,0,0.92),
+      inset 10px 12px 35px rgba(160,255,60,0.10),
+      0 0 60px rgba(90,190,15,0.32),
+      0 0 120px rgba(70,150,8,0.16);
     animation: spherePulse 4s ease-in-out infinite;
   }
-
-  /* Chrome specular highlight */
+  /* Top-left chrome glare */
   .orb-sphere::before {
     content: '';
     position: absolute;
-    top: 10%; left: 16%;
-    width: 38%; height: 26%;
+    top: 9%; left: 14%;
+    width: 44%; height: 30%;
     border-radius: 50%;
-    background: radial-gradient(ellipse, rgba(240,255,210,0.65) 0%, rgba(200,255,120,0.15) 60%, transparent 100%);
+    background: radial-gradient(ellipse at 38% 38%,
+      rgba(255,255,255,0.75) 0%,
+      rgba(230,255,190,0.35) 45%,
+      transparent 80%
+    );
     filter: blur(3px);
   }
   /* Small secondary sparkle */
   .orb-sphere::after {
     content: '';
     position: absolute;
-    top: 22%; left: 52%;
-    width: 14%; height: 10%;
+    top: 20%; left: 55%;
+    width: 13%; height: 9%;
     border-radius: 50%;
-    background: radial-gradient(ellipse, rgba(255,255,255,0.55) 0%, transparent 100%);
+    background: radial-gradient(ellipse, rgba(255,255,255,0.6) 0%, transparent 100%);
     filter: blur(2px);
   }
-
   @keyframes spherePulse {
-    0%,100% { box-shadow: inset -30px -30px 70px rgba(0,0,0,0.85), inset 12px 14px 40px rgba(180,255,80,0.18), 0 0 55px rgba(100,200,20,0.28), 0 0 110px rgba(80,160,10,0.14); }
-    50%      { box-shadow: inset -30px -30px 70px rgba(0,0,0,0.85), inset 12px 14px 40px rgba(180,255,80,0.22), 0 0 80px rgba(100,200,20,0.45), 0 0 160px rgba(80,160,10,0.22); }
+    0%,100% { box-shadow: inset -40px -40px 90px rgba(0,0,0,0.92), inset 10px 12px 35px rgba(160,255,60,0.10), 0 0 60px rgba(90,190,15,0.32), 0 0 120px rgba(70,150,8,0.16); }
+    50%      { box-shadow: inset -40px -40px 90px rgba(0,0,0,0.92), inset 10px 12px 35px rgba(160,255,60,0.14), 0 0 90px rgba(90,190,15,0.50), 0 0 180px rgba(70,150,8,0.26); }
   }
 
-  /* ---- THICK CHROME ORBITAL RING (like the reference image) ---- */
+  /* ---- 3D CHROME TORUS RING ---- */
+  /* Split into back (z<sphere) and front (z>sphere) halves
+     so the ring wraps convincingly around the sphere            */
   .orbit-ring {
     position: absolute;
     border-radius: 50%;
     pointer-events: none;
+    /* same size + tilt for all ring layers */
+    width: 330px; height: 95px;
+    transform: rotate(-20deg);
   }
 
-  /* Main thick chrome band — wraps around the sphere at ~20° tilt */
+  /* BACK half — sits behind sphere */
   .orbit-ring-1 {
-    width: 310px; height: 90px;
-    border: 22px solid transparent;
+    border: 30px solid transparent;
     background:
-      linear-gradient(#050d14, #050d14) padding-box,
-      linear-gradient(
-        160deg,
-        #e8e8e8 0%,
-        #b0b8b0 12%,
-        #787878 22%,
-        #555 30%,
-        #888 40%,
-        #c8d0c0 50%,
-        #f0f0ee 58%,
-        #a8b0a0 68%,
-        #606860 78%,
-        #909890 88%,
-        #d8ddd8 100%
+      linear-gradient(#050d14,#050d14) padding-box,
+      linear-gradient(to bottom,
+        #888 0%, #a0a8a0 18%, #c8cec8 35%,
+        #b0b8b0 50%, #787878 65%, #505850 82%, #686e68 100%
       ) border-box;
-    transform: rotate(-18deg);
-    filter: drop-shadow(0 4px 18px rgba(0,0,0,0.7)) drop-shadow(0 0 8px rgba(160,200,100,0.18));
-    z-index: 8;
+    z-index: 4;
+    box-shadow:
+      inset 0 8px 20px rgba(255,255,255,0.06),
+      inset 0 -8px 20px rgba(0,0,0,0.6),
+      0 6px 24px rgba(0,0,0,0.6);
+    /* clip so only the bottom half shows (behind sphere) */
+    clip-path: ellipse(165px 60px at 50% 100%);
   }
 
-  /* Thin accent ring behind — slight greenish tint */
+  /* FRONT half — sits in front of sphere */
   .orbit-ring-2 {
-    width: 360px; height: 108px;
-    border: 3px solid transparent;
+    border: 30px solid transparent;
     background:
-      linear-gradient(#050d14, #050d14) padding-box,
-      linear-gradient(160deg, rgba(180,220,100,0.5) 0%, rgba(100,140,50,0.2) 50%, rgba(180,220,100,0.4) 100%) border-box;
-    transform: rotate(-18deg);
-    z-index: 3;
+      linear-gradient(#050d14,#050d14) padding-box,
+      linear-gradient(to bottom,
+        #d8ddd8 0%, #f0f2f0 15%, #ffffff 28%,
+        #d0d8d0 42%, #a8b0a8 56%, #808880 72%, #a0a8a0 88%, #c8cec8 100%
+      ) border-box;
+    z-index: 8;
+    box-shadow:
+      inset 0 8px 20px rgba(255,255,255,0.18),
+      inset 0 -8px 20px rgba(0,0,0,0.4),
+      0 -6px 24px rgba(255,255,255,0.06);
+    /* clip so only the top half shows (in front of sphere) */
+    clip-path: ellipse(165px 60px at 50% 0%);
   }
 
-  /* Second thin outer ring */
+  /* Thin outer glow ring */
   .orbit-ring-3 {
-    width: 400px; height: 122px;
-    border: 1.5px solid rgba(180,200,150,0.12);
-    transform: rotate(-18deg);
+    width: 390px; height: 112px;
+    border: 2px solid rgba(180,210,130,0.14);
     z-index: 3;
   }
 
