@@ -277,7 +277,7 @@
     .orbit-img-card { width: 75px; }
   }
   @media (max-width: 600px) {
-    /* Mobile: flex column — text first, video card below */
+    /* Mobile: flex column — text first, video then orbit below */
     .hero {
       display: flex;
       flex-direction: column;
@@ -286,39 +286,51 @@
       background: #050d14;
     }
 
-    /* Text block — order 1, sits above video */
     .hero-content-wrap {
       order: 1;
-      padding: 28px 20px 16px;
+      padding: 28px 20px 12px;
       position: relative;
       z-index: 10;
     }
 
-    /* Pull video out of absolute fullscreen → card below text */
+    /* Video plays as a card below text, then fades to orbit */
     .hero-video-wrap {
       order: 2;
       position: relative !important;
       inset: auto !important;
-      height: 230px;
-      margin: 0 16px 24px;
+      height: 210px;
+      margin: 0 16px 0;
       border-radius: 16px;
       overflow: hidden;
       border: 1.5px solid rgba(244,208,63,0.2);
       box-shadow: 0 8px 32px rgba(0,0,0,0.6);
       flex-shrink: 0;
+      transition: height 0.6s ease, margin 0.6s ease, opacity 0.6s ease;
+    }
+    .hero-video-wrap.fade-out {
+      height: 0 !important;
+      margin-bottom: 0 !important;
+      opacity: 0 !important;
     }
 
-    /* No dark overlay needed — video is a card now, not background */
     .hero-vid-overlay { display: none; }
+    .hero-post-bg { position: absolute; inset: 0; z-index: 0; }
 
-    /* Dark post-bg still covers section behind text */
-    .hero-post-bg {
-      position: absolute;
-      inset: 0;
-      z-index: 0;
+    /* Orbit shows BELOW text on mobile, not hidden */
+    .orbit-stage {
+      order: 3;
+      position: relative !important;
+      width: calc(100% - 32px);
+      height: 300px;
+      margin: 8px 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    .orbit-stage { display: none; }
+    /* Smaller orbit image cards on mobile */
+    .orbit-img-card { width: 68px; }
+
     .vid-progress { display: none; }
     .scroll-indicator { display: none; }
 
@@ -822,13 +834,14 @@
   /* ----- ORBITAL ANIMATION ENGINE ----- */
   const N = cards.length; // 6 images
 
-  /* Three elliptical orbits, each carrying 2 images.
-     rx = half-width, ry = half-height, tilt = rotation angle of ellipse (deg),
-     speed = radians per frame, startOffset = initial phase offset between the two images */
+  /* Scale orbits down on mobile so cards stay within the stage */
+  const mob = window.innerWidth <= 600;
+  const RS = mob ? 0.55 : 1; // radius scale
+
   const ORBITS = [
-    { rx: 200, ry: 55,  tilt:   0, speed: 0.008,  imgs: [0, 3] },
-    { rx: 240, ry: 75,  tilt:  55, speed: -0.006, imgs: [1, 4] },
-    { rx: 260, ry: 85,  tilt: -38, speed: 0.007,  imgs: [2, 5] },
+    { rx: 200*RS, ry: 55*RS,  tilt:   0, speed: mob ? 0.012 : 0.008,  imgs: [0, 3] },
+    { rx: 240*RS, ry: 75*RS,  tilt:  55, speed: mob ? -0.009 : -0.006, imgs: [1, 4] },
+    { rx: 260*RS, ry: 85*RS,  tilt: -38, speed: mob ? 0.010 : 0.007,  imgs: [2, 5] },
   ];
 
   /* phase angles — images on same orbit start π apart */
@@ -883,17 +896,11 @@
   }
 
   if (vid) {
-    // On mobile: video plays as a card (no orbit launch needed, sphere is hidden)
-    if (window.innerWidth > 600) {
-      vid.addEventListener('ended', launchOrbits);
-      let fb = setTimeout(launchOrbits, 15000);
-      vid.addEventListener('ended', () => clearTimeout(fb));
-      vid.addEventListener('error', () => { clearTimeout(fb); launchOrbits(); });
-      vid.addEventListener('loadedmetadata', () => { if (vid.duration < 0.5) launchOrbits(); });
-    } else {
-      // Show dark post-bg immediately so text section has clean background
-      postBg.classList.add('show');
-    }
+    vid.addEventListener('ended', launchOrbits);
+    let fb = setTimeout(launchOrbits, 15000);
+    vid.addEventListener('ended', () => clearTimeout(fb));
+    vid.addEventListener('error', () => { clearTimeout(fb); launchOrbits(); });
+    vid.addEventListener('loadedmetadata', () => { if (vid.duration < 0.5) launchOrbits(); });
   } else {
     setTimeout(launchOrbits, 500);
   }
@@ -907,10 +914,10 @@
 (function () {
   const canvas = document.getElementById('orb-canvas');
   if (!canvas || typeof THREE === 'undefined') return;
-  // Skip Three.js entirely on mobile — saves CPU/GPU, stops lag
-  if (window.innerWidth <= 600) return;
 
-  const W = 460, H = 460;
+  const isMob = window.innerWidth <= 600;
+  const W = isMob ? 280 : 460;
+  const H = isMob ? 280 : 460;
   canvas.width  = W;
   canvas.height = H;
   canvas.style.width  = W + 'px';
@@ -925,8 +932,8 @@
 
   /* ---- Scene & Camera ---- */
   const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(36, W / H, 0.1, 100);
-  camera.position.set(0, 0.2, 5.2);
+  const camera = new THREE.PerspectiveCamera(isMob ? 42 : 36, W / H, 0.1, 100);
+  camera.position.set(0, 0.2, isMob ? 6.5 : 5.2);
 
   /* ---- Lights ---- */
   // Strong key light top-left → creates the main specular glare on sphere + ring
@@ -1023,7 +1030,7 @@
   scene.add(ring3);
 
   /* ---- ORBIT PARTICLES (sparks along gold ring path) ---- */
-  const NUM_SPARKS = 60;
+  const NUM_SPARKS = isMob ? 30 : 60;
   const sparkGeo = new THREE.BufferGeometry();
   const sparkPos = new Float32Array(NUM_SPARKS * 3);
   const RING_R = 2.1;
@@ -1047,7 +1054,7 @@
   scene.add(sparks);
 
   /* ---- STAR FIELD (background particle cloud) ---- */
-  const STARS = 180;
+  const STARS = isMob ? 80 : 180;
   const starGeo = new THREE.BufferGeometry();
   const starPos = new Float32Array(STARS * 3);
   for (let i = 0; i < STARS; i++) {
