@@ -947,7 +947,11 @@
 }
 
 @media (max-width: 768px) {
-  .services-grid { grid-template-columns: repeat(2, 1fr); }
+  .services-grid {
+    grid-template-columns: repeat(2, 1fr);
+    perspective: none; /* no 3D distortion on tablet */
+    gap: 16px;
+  }
   .mvv-grid { grid-template-columns: 1fr; }
   .team-grid { grid-template-columns: repeat(2, 1fr); }
   .testi-grid { grid-template-columns: 1fr; }
@@ -958,10 +962,23 @@
   .tl-item { grid-template-columns: 1fr 40px; }
   .tl-item > *:last-child { display: none; }
   .timeline::before { left: 20px; }
+
+  /* No 3D hover effects on touch screens */
+  .svc-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(27,79,114,0.14);
+  }
+  .svc-card-vid { height: 150px; }
+  .svc-card-body { padding: 14px 16px 18px; }
 }
 
 @media (max-width: 480px) {
-  .services-grid { grid-template-columns: 1fr; }
+  .services-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
   .team-grid { grid-template-columns: 1fr; }
-  .svc-card { height: 220px; }
+  /* Remove leftover flip-card height — new cards are auto height */
+  .svc-card { height: auto; }
+  .svc-card-vid { height: 200px; }
 }

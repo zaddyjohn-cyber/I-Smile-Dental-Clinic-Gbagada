@@ -316,16 +316,21 @@
     .hero-vid-overlay { display: none; }
     .hero-post-bg { position: absolute; inset: 0; z-index: 0; }
 
-    /* Orbit shows BELOW text on mobile, not hidden */
+    /* Orbit: collapsed until video ends, then animates in */
     .orbit-stage {
-      order: 3;
       position: relative !important;
-      width: calc(100% - 32px);
+      width: 100%;
+      height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transform: none !important;
+      margin: 0;
+      transition: height 0.7s ease, opacity 0.7s ease, margin 0.5s ease;
+    }
+    .orbit-stage.show {
       height: 300px;
-      margin: 8px 16px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      opacity: 1;
+      margin: 8px 0 16px;
     }
 
     /* Smaller orbit image cards on mobile */
