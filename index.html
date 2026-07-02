@@ -867,19 +867,121 @@
   );
   scene.add(sphere);
 
-  /* ---- CHROME TORUS RING ---- */
+  /* ---- CHROME TORUS RING (main) ---- */
   const torus = new THREE.Mesh(
     new THREE.TorusGeometry(1.52, 0.28, 48, 160),
     new THREE.MeshPhongMaterial({
-      color:    0x888888,   // silver-grey base
-      specular: 0xffffff,   // pure white specular → chrome look
-      shininess: 400,       // extremely shiny = chrome
+      color:    0x888888,
+      specular: 0xffffff,
+      shininess: 400,
       emissive: 0x111111,
     })
   );
   torus.rotation.x = THREE.MathUtils.degToRad(20);
   torus.rotation.z = THREE.MathUtils.degToRad(-10);
   scene.add(torus);
+
+  /* ---- THIN GLOWING ORBIT RINGS (decorative) ---- */
+  // Gold accent ring
+  const ring1 = new THREE.Mesh(
+    new THREE.TorusGeometry(2.1, 0.018, 16, 200),
+    new THREE.MeshPhongMaterial({
+      color:    0xf4d03f,
+      emissive: 0xc8a800,
+      emissiveIntensity: 1.2,
+      specular: 0xffffff,
+      shininess: 200,
+      transparent: true, opacity: 0.75,
+    })
+  );
+  ring1.rotation.x = THREE.MathUtils.degToRad(70);
+  ring1.rotation.z = THREE.MathUtils.degToRad(25);
+  scene.add(ring1);
+
+  // Blue accent ring
+  const ring2 = new THREE.Mesh(
+    new THREE.TorusGeometry(2.45, 0.012, 16, 200),
+    new THREE.MeshPhongMaterial({
+      color:    0x4ab8f4,
+      emissive: 0x0066bb,
+      emissiveIntensity: 1.0,
+      transparent: true, opacity: 0.55,
+    })
+  );
+  ring2.rotation.x = THREE.MathUtils.degToRad(55);
+  ring2.rotation.z = THREE.MathUtils.degToRad(-40);
+  scene.add(ring2);
+
+  // White outer ring
+  const ring3 = new THREE.Mesh(
+    new THREE.TorusGeometry(2.75, 0.008, 16, 200),
+    new THREE.MeshPhongMaterial({
+      color:    0xffffff,
+      emissive: 0x888888,
+      emissiveIntensity: 0.6,
+      transparent: true, opacity: 0.30,
+    })
+  );
+  ring3.rotation.x = THREE.MathUtils.degToRad(80);
+  ring3.rotation.z = THREE.MathUtils.degToRad(10);
+  scene.add(ring3);
+
+  /* ---- ORBIT PARTICLES (sparks along gold ring path) ---- */
+  const NUM_SPARKS = 60;
+  const sparkGeo = new THREE.BufferGeometry();
+  const sparkPos = new Float32Array(NUM_SPARKS * 3);
+  const RING_R = 2.1;
+  for (let i = 0; i < NUM_SPARKS; i++) {
+    const a = (i / NUM_SPARKS) * Math.PI * 2;
+    sparkPos[i * 3]     = Math.cos(a) * RING_R;
+    sparkPos[i * 3 + 1] = 0;
+    sparkPos[i * 3 + 2] = Math.sin(a) * RING_R;
+  }
+  sparkGeo.setAttribute('position', new THREE.BufferAttribute(sparkPos, 3));
+  const sparkMat = new THREE.PointsMaterial({
+    color: 0xf4d03f,
+    size: 0.045,
+    transparent: true,
+    opacity: 0.9,
+    sizeAttenuation: true,
+  });
+  const sparks = new THREE.Points(sparkGeo, sparkMat);
+  sparks.rotation.x = THREE.MathUtils.degToRad(70);
+  sparks.rotation.z = THREE.MathUtils.degToRad(25);
+  scene.add(sparks);
+
+  /* ---- STAR FIELD (background particle cloud) ---- */
+  const STARS = 180;
+  const starGeo = new THREE.BufferGeometry();
+  const starPos = new Float32Array(STARS * 3);
+  for (let i = 0; i < STARS; i++) {
+    const r = 3.5 + Math.random() * 2.5;
+    const theta = Math.random() * Math.PI * 2;
+    const phi   = Math.acos(2 * Math.random() - 1);
+    starPos[i*3]   = r * Math.sin(phi) * Math.cos(theta);
+    starPos[i*3+1] = r * Math.sin(phi) * Math.sin(theta);
+    starPos[i*3+2] = r * Math.cos(phi);
+  }
+  starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
+  const starMat = new THREE.PointsMaterial({
+    color: 0xffffff, size: 0.028,
+    transparent: true, opacity: 0.6, sizeAttenuation: true,
+  });
+  scene.add(new THREE.Points(starGeo, starMat));
+
+  /* ---- GLOW HALO (transparent sphere behind main sphere) ---- */
+  const halo = new THREE.Mesh(
+    new THREE.SphereGeometry(1.18, 32, 32),
+    new THREE.MeshPhongMaterial({
+      color:    0x33aa00,
+      emissive: 0x1a6600,
+      emissiveIntensity: 0.8,
+      transparent: true,
+      opacity: 0.18,
+      side: THREE.BackSide,
+    })
+  );
+  scene.add(halo);
 
   /* ---- Animate ---- */
   let t = 0;
@@ -889,7 +991,20 @@
     sphere.rotation.y = t * 0.35;
     sphere.rotation.x = Math.sin(t * 0.25) * 0.06;
     torus.rotation.y  = t * 0.22;
+
+    // Decorative rings spin slowly at different rates
+    ring1.rotation.y = t * 0.18;
+    ring2.rotation.y = -t * 0.12;
+    ring3.rotation.y = t * 0.08;
+    sparks.rotation.y = t * 0.18; // follow gold ring
+
+    // Pulsing glow
     glow.intensity = 3 + Math.sin(t * 1.4) * 1;
+    halo.material.opacity = 0.14 + Math.sin(t * 1.1) * 0.06;
+
+    // Spark opacity twinkle
+    sparkMat.opacity = 0.7 + Math.sin(t * 2.5) * 0.25;
+
     renderer.render(scene, camera);
   }
   animate();
