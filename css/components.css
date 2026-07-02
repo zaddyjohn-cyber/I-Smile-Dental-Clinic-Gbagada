@@ -12,62 +12,19 @@
 }
 
 .svc-card {
-  height: 250px;
-  perspective: 1000px;
-  cursor: none;
-}
-
-.svc-inner {
-  position: relative;
-  width: 100%; height: 100%;
-  transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
-  transform-style: preserve-3d;
-}
-.svc-card:hover .svc-inner { transform: rotateY(180deg); }
-
-.svc-front, .svc-back {
-  position: absolute;
-  inset: 0;
-  backface-visibility: hidden;
-  border-radius: var(--radius-lg);
-}
-
-.svc-front {
-  background: var(--white);
-  border: 1px solid rgba(0,0,0,0.06);
-  box-shadow: 0 4px 24px rgba(0,0,0,0.07);
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-  padding: 32px 24px;
-  position: relative;
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.07);
   overflow: hidden;
-  transition: box-shadow 0.3s ease;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  cursor: default;
 }
-
-.svc-front::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, var(--accent), var(--primary-light));
-  box-shadow: 0 0 12px rgba(244,208,63,0.4);
-}
-
-.svc-front::after {
-  content: '';
-  position: absolute;
-  bottom: -60px; right: -60px;
-  width: 160px; height: 160px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(244,208,63,0.06) 0%, transparent 70%);
-  transition: var(--transition);
-}
-
-.svc-card:hover .svc-front::after {
-  width: 220px; height: 220px;
+.svc-card:hover {
+  box-shadow: 0 16px 48px rgba(27,79,114,0.14);
+  transform: translateY(-4px);
 }
 
 .svc-icon {
@@ -81,27 +38,42 @@
 }
 
 .svc-card-vid {
-  width: 100%; height: 100%;
+  width: 100%;
+  height: 180px;
   object-fit: cover;
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  border-radius: var(--radius-lg);
+  display: block;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  flex-shrink: 0;
 }
-/* dark gradient over video so title stays readable */
-.svc-front:has(.svc-card-vid)::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(5,13,20,0.75) 0%, rgba(5,13,20,0.2) 60%, transparent 100%);
-  z-index: 1;
-  border-radius: var(--radius-lg);
+.svc-card-body {
+  padding: 18px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
 }
-.svc-front:has(.svc-card-vid) h3 {
-  position: relative; z-index: 2;
-  color: #fff;
-  text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+.svc-card-body h3 {
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--dark);
 }
+.svc-card-body p {
+  font-size: 0.85rem;
+  color: var(--gray);
+  line-height: 1.6;
+  flex: 1;
+}
+.svc-read-more {
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 0.8rem;
+  color: var(--primary);
+  text-decoration: none;
+  letter-spacing: 0.3px;
+  transition: color 0.2s;
+}
+.svc-read-more:hover { color: var(--accent); }
 
 .svc-card:hover .svc-icon {
   background: linear-gradient(135deg, var(--accent), #e6b800);
