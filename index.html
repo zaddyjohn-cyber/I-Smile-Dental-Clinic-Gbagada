@@ -262,16 +262,36 @@
 
   /* ---- RESPONSIVE ---- */
   @media (max-width: 960px) {
-    .hero-split { grid-template-columns: 1fr; padding: 120px 24px 60px; gap: 0; min-height: auto; }
-    .orbit-stage { height: 320px; margin-top: -20px; }
-    .orb-sphere { width: 130px; height: 130px; }
-    .orbit-img-card { width: 80px; }
-    .orbit-ring-1 { width: 220px; height: 72px; }
-    .orbit-ring-2 { width: 290px; height: 94px; }
-    .orbit-ring-3 { width: 330px; height: 108px; }
+    .hero-split {
+      grid-template-columns: 1fr;
+      padding: 110px 24px 50px;
+      gap: 0;
+      min-height: 100vh;
+      align-content: center;
+    }
+    /* Darker overlay so text is always readable over video on tablet */
+    .hero-vid-overlay {
+      background: linear-gradient(160deg,rgba(5,13,20,0.88) 0%,rgba(5,13,20,0.72) 100%);
+    }
+    .orbit-stage { height: 300px; margin-top: 10px; }
+    .orbit-img-card { width: 75px; }
   }
   @media (max-width: 600px) {
+    /* On mobile: no sphere, video still plays as BG, text centred */
+    .hero-split {
+      padding: 90px 20px 40px;
+      text-align: center;
+      justify-items: center;
+    }
+    .hero-vid-overlay {
+      /* Much darker on mobile so text pops clearly */
+      background: rgba(5,13,20,0.82);
+    }
     .orbit-stage { display: none; }
+    .hero-btns { flex-direction: column; align-items: center; gap: 12px; }
+    .hero-proof { justify-content: center; }
+    .hero-badge { font-size: 0.65rem; }
+    /* Pause video on mobile to stop lag — handled in JS */
   }
   </style>
 </head>
@@ -795,11 +815,19 @@
   }
 
   if (vid) {
-    vid.addEventListener('ended', launchOrbits);
-    let fb = setTimeout(launchOrbits, 15000);
-    vid.addEventListener('ended', () => clearTimeout(fb));
-    vid.addEventListener('error', () => { clearTimeout(fb); launchOrbits(); });
-    vid.addEventListener('loadedmetadata', () => { if (vid.duration < 0.5) launchOrbits(); });
+    // On mobile: skip video entirely to prevent lag — go straight to static BG
+    if (window.innerWidth <= 600) {
+      vid.pause();
+      vid.src = '';
+      vidWrap.classList.add('fade-out');
+      postBg.classList.add('show');
+    } else {
+      vid.addEventListener('ended', launchOrbits);
+      let fb = setTimeout(launchOrbits, 15000);
+      vid.addEventListener('ended', () => clearTimeout(fb));
+      vid.addEventListener('error', () => { clearTimeout(fb); launchOrbits(); });
+      vid.addEventListener('loadedmetadata', () => { if (vid.duration < 0.5) launchOrbits(); });
+    }
   } else {
     setTimeout(launchOrbits, 500);
   }
@@ -813,6 +841,8 @@
 (function () {
   const canvas = document.getElementById('orb-canvas');
   if (!canvas || typeof THREE === 'undefined') return;
+  // Skip Three.js entirely on mobile — saves CPU/GPU, stops lag
+  if (window.innerWidth <= 600) return;
 
   const W = 460, H = 460;
   canvas.width  = W;
