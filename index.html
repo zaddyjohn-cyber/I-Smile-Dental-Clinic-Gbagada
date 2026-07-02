@@ -277,21 +277,61 @@
     .orbit-img-card { width: 75px; }
   }
   @media (max-width: 600px) {
-    /* On mobile: no sphere, video still plays as BG, text centred */
+    /* Mobile: flex column — text first, video card below */
+    .hero {
+      display: flex;
+      flex-direction: column;
+      min-height: auto;
+      padding-top: 72px;
+      background: #050d14;
+    }
+
+    /* Text block — order 1, sits above video */
+    .hero-content-wrap {
+      order: 1;
+      padding: 28px 20px 16px;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* Pull video out of absolute fullscreen → card below text */
+    .hero-video-wrap {
+      order: 2;
+      position: relative !important;
+      inset: auto !important;
+      height: 230px;
+      margin: 0 16px 24px;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1.5px solid rgba(244,208,63,0.2);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+      flex-shrink: 0;
+    }
+
+    /* No dark overlay needed — video is a card now, not background */
+    .hero-vid-overlay { display: none; }
+
+    /* Dark post-bg still covers section behind text */
+    .hero-post-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+
+    .orbit-stage { display: none; }
+    .vid-progress { display: none; }
+    .scroll-indicator { display: none; }
+
     .hero-split {
-      padding: 90px 20px 40px;
+      padding: 0;
+      grid-template-columns: 1fr;
       text-align: center;
       justify-items: center;
+      min-height: auto;
     }
-    .hero-vid-overlay {
-      /* Much darker on mobile so text pops clearly */
-      background: rgba(5,13,20,0.82);
-    }
-    .orbit-stage { display: none; }
     .hero-btns { flex-direction: column; align-items: center; gap: 12px; }
     .hero-proof { justify-content: center; }
     .hero-badge { font-size: 0.65rem; }
-    /* Pause video on mobile to stop lag — handled in JS */
   }
   </style>
 </head>
@@ -815,18 +855,16 @@
   }
 
   if (vid) {
-    // On mobile: skip video entirely to prevent lag — go straight to static BG
-    if (window.innerWidth <= 600) {
-      vid.pause();
-      vid.src = '';
-      vidWrap.classList.add('fade-out');
-      postBg.classList.add('show');
-    } else {
+    // On mobile: video plays as a card (no orbit launch needed, sphere is hidden)
+    if (window.innerWidth > 600) {
       vid.addEventListener('ended', launchOrbits);
       let fb = setTimeout(launchOrbits, 15000);
       vid.addEventListener('ended', () => clearTimeout(fb));
       vid.addEventListener('error', () => { clearTimeout(fb); launchOrbits(); });
       vid.addEventListener('loadedmetadata', () => { if (vid.duration < 0.5) launchOrbits(); });
+    } else {
+      // Show dark post-bg immediately so text section has clean background
+      postBg.classList.add('show');
     }
   } else {
     setTimeout(launchOrbits, 500);
