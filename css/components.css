@@ -88,7 +88,20 @@
   z-index: 0;
   border-radius: var(--radius-lg);
 }
-.svc-front h3 { position: relative; z-index: 1; color: #fff; text-shadow: 0 2px 8px rgba(0,0,0,0.7); margin-top: auto; }
+/* dark gradient over video so title stays readable */
+.svc-front:has(.svc-card-vid)::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(5,13,20,0.75) 0%, rgba(5,13,20,0.2) 60%, transparent 100%);
+  z-index: 1;
+  border-radius: var(--radius-lg);
+}
+.svc-front:has(.svc-card-vid) h3 {
+  position: relative; z-index: 2;
+  color: #fff;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+}
 
 .svc-card:hover .svc-icon {
   background: linear-gradient(135deg, var(--accent), #e6b800);
