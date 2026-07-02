@@ -90,78 +90,106 @@
   }
   .orbit-stage.show { opacity: 1; transform: scale(1); }
 
-  /* ---- CENTRAL METALLIC SPHERE ---- */
+  /* ---- CENTRAL METALLIC GREEN SPHERE ---- */
   .orb-sphere {
     position: absolute;
-    width: 200px; height: 200px;
+    width: 210px; height: 210px;
     border-radius: 50%;
     background:
-      radial-gradient(circle at 35% 30%,
-        rgba(255,255,255,0.35) 0%,
-        rgba(200,220,240,0.18) 20%,
-        rgba(27,79,114,0.55) 45%,
-        rgba(10,30,55,0.9) 70%,
-        rgba(5,13,20,1) 100%
+      radial-gradient(circle at 38% 28%,
+        rgba(220,255,140,0.55) 0%,
+        rgba(140,210,60,0.75) 18%,
+        rgba(90,160,20,0.85) 38%,
+        rgba(50,100,10,0.92) 58%,
+        rgba(20,40,5,1) 78%,
+        rgba(8,15,2,1) 100%
       );
     box-shadow:
-      inset -20px -20px 60px rgba(0,0,0,0.8),
-      inset 10px 10px 40px rgba(100,160,220,0.2),
-      0 0 60px rgba(27,79,114,0.35),
-      0 0 120px rgba(27,79,114,0.15),
-      0 0 4px rgba(244,208,63,0.2);
+      inset -30px -30px 70px rgba(0,0,0,0.85),
+      inset 12px 14px 40px rgba(180,255,80,0.18),
+      inset 4px 4px 16px rgba(255,255,200,0.12),
+      0 0 55px rgba(100,200,20,0.28),
+      0 0 110px rgba(80,160,10,0.14),
+      0 0 6px rgba(180,255,80,0.2);
     z-index: 5;
     animation: spherePulse 4s ease-in-out infinite;
   }
 
-  /* Shine flare on sphere */
+  /* Chrome specular highlight */
   .orb-sphere::before {
     content: '';
     position: absolute;
-    top: 12%; left: 18%;
-    width: 35%; height: 25%;
+    top: 10%; left: 16%;
+    width: 38%; height: 26%;
     border-radius: 50%;
-    background: radial-gradient(ellipse, rgba(255,255,255,0.45) 0%, transparent 70%);
-    filter: blur(4px);
+    background: radial-gradient(ellipse, rgba(240,255,210,0.65) 0%, rgba(200,255,120,0.15) 60%, transparent 100%);
+    filter: blur(3px);
   }
-  /* Tooth icon in center */
+  /* Small secondary sparkle */
   .orb-sphere::after {
-    content: '🦷';
+    content: '';
     position: absolute;
-    inset: 0;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 3.2rem;
-    filter: drop-shadow(0 0 12px rgba(255,255,255,0.3));
-    line-height: 1;
-    padding-top: 2px;
+    top: 22%; left: 52%;
+    width: 14%; height: 10%;
+    border-radius: 50%;
+    background: radial-gradient(ellipse, rgba(255,255,255,0.55) 0%, transparent 100%);
+    filter: blur(2px);
   }
 
   @keyframes spherePulse {
-    0%,100% { box-shadow: inset -20px -20px 60px rgba(0,0,0,0.8), inset 10px 10px 40px rgba(100,160,220,0.2), 0 0 60px rgba(27,79,114,0.35), 0 0 120px rgba(27,79,114,0.15); }
-    50%      { box-shadow: inset -20px -20px 60px rgba(0,0,0,0.8), inset 10px 10px 40px rgba(100,160,220,0.2), 0 0 90px rgba(27,79,114,0.55), 0 0 180px rgba(27,79,114,0.25); }
+    0%,100% { box-shadow: inset -30px -30px 70px rgba(0,0,0,0.85), inset 12px 14px 40px rgba(180,255,80,0.18), 0 0 55px rgba(100,200,20,0.28), 0 0 110px rgba(80,160,10,0.14); }
+    50%      { box-shadow: inset -30px -30px 70px rgba(0,0,0,0.85), inset 12px 14px 40px rgba(180,255,80,0.22), 0 0 80px rgba(100,200,20,0.45), 0 0 160px rgba(80,160,10,0.22); }
   }
 
-  /* ---- ORBIT RINGS (decorative ellipses) ---- */
+  /* ---- THICK CHROME ORBITAL RING (like the reference image) ---- */
   .orbit-ring {
     position: absolute;
     border-radius: 50%;
-    border: 1.5px solid rgba(244,208,63,0.18);
     pointer-events: none;
   }
+
+  /* Main thick chrome band — wraps around the sphere at ~20° tilt */
   .orbit-ring-1 {
-    width: 340px; height: 110px;
-    transform: rotateX(0deg);
-    box-shadow: 0 0 20px rgba(244,208,63,0.06), inset 0 0 20px rgba(244,208,63,0.04);
+    width: 310px; height: 90px;
+    border: 22px solid transparent;
+    background:
+      linear-gradient(#050d14, #050d14) padding-box,
+      linear-gradient(
+        160deg,
+        #e8e8e8 0%,
+        #b0b8b0 12%,
+        #787878 22%,
+        #555 30%,
+        #888 40%,
+        #c8d0c0 50%,
+        #f0f0ee 58%,
+        #a8b0a0 68%,
+        #606860 78%,
+        #909890 88%,
+        #d8ddd8 100%
+      ) border-box;
+    transform: rotate(-18deg);
+    filter: drop-shadow(0 4px 18px rgba(0,0,0,0.7)) drop-shadow(0 0 8px rgba(160,200,100,0.18));
+    z-index: 8;
   }
+
+  /* Thin accent ring behind — slight greenish tint */
   .orbit-ring-2 {
-    width: 460px; height: 150px;
-    border-color: rgba(100,160,220,0.14);
-    transform: rotate(55deg);
-    box-shadow: 0 0 20px rgba(100,160,220,0.06);
+    width: 360px; height: 108px;
+    border: 3px solid transparent;
+    background:
+      linear-gradient(#050d14, #050d14) padding-box,
+      linear-gradient(160deg, rgba(180,220,100,0.5) 0%, rgba(100,140,50,0.2) 50%, rgba(180,220,100,0.4) 100%) border-box;
+    transform: rotate(-18deg);
+    z-index: 3;
   }
+
+  /* Second thin outer ring */
   .orbit-ring-3 {
-    width: 520px; height: 170px;
-    border-color: rgba(244,208,63,0.1);
-    transform: rotate(-40deg);
+    width: 400px; height: 122px;
+    border: 1.5px solid rgba(180,200,150,0.12);
+    transform: rotate(-18deg);
+    z-index: 3;
   }
 
   /* ---- ORBIT IMAGE CARDS ---- */
