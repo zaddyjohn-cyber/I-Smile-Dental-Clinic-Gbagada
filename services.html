@@ -13,6 +13,41 @@
   <link rel="stylesheet" href="css/hero.css" />
   <link rel="stylesheet" href="css/components.css" />
   <link rel="stylesheet" href="css/animations.css" />
+  <style>
+  .svc-video-wrap {
+    flex-shrink: 0;
+    width: 260px;
+    border-radius: 18px;
+    overflow: hidden;
+    border: 2px solid rgba(27,79,114,0.18);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.13);
+    background: #0a1520;
+    position: relative;
+  }
+  .svc-video-wrap video {
+    width: 100%;
+    display: block;
+    aspect-ratio: 9/14;
+    object-fit: cover;
+  }
+  .svc-video-badge {
+    position: absolute;
+    bottom: 10px; left: 10px;
+    background: rgba(244,208,63,0.92);
+    color: #0a1520;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 20px;
+  }
+  @media (max-width: 768px) {
+    .svc-video-wrap { width: 100%; }
+    .svc-video-wrap video { aspect-ratio: 16/9; }
+  }
+  </style>
 </head>
 <body>
 
@@ -70,7 +105,12 @@
     </div>
 
     <div id="whitening" class="svc-section reveal">
-      <div class="svc-section-icon">✨</div>
+      <div class="svc-video-wrap">
+        <video autoplay muted loop playsinline preload="none">
+          <source src="media/videos/svc-whitening.mp4" type="video/mp4" />
+        </video>
+        <div class="svc-video-badge">Teeth Whitening</div>
+      </div>
       <div class="svc-section-content">
         <div class="svc-section-badge">Cosmetic</div>
         <h3>Teeth Whitening</h3>
@@ -86,7 +126,12 @@
     </div>
 
     <div id="implants" class="svc-section reveal">
-      <div class="svc-section-icon">🦷</div>
+      <div class="svc-video-wrap">
+        <video autoplay muted loop playsinline preload="none">
+          <source src="media/videos/svc-implants.mp4" type="video/mp4" />
+        </video>
+        <div class="svc-video-badge">Dental Implants</div>
+      </div>
       <div class="svc-section-content">
         <div class="svc-section-badge">Restorative</div>
         <h3>Dental Implants</h3>
@@ -102,7 +147,12 @@
     </div>
 
     <div id="braces" class="svc-section reveal">
-      <div class="svc-section-icon">😁</div>
+      <div class="svc-video-wrap">
+        <video autoplay muted loop playsinline preload="none">
+          <source src="media/videos/svc-braces.mp4" type="video/mp4" />
+        </video>
+        <div class="svc-video-badge">Braces &amp; Orthodontics</div>
+      </div>
       <div class="svc-section-content">
         <div class="svc-section-badge">Orthodontics</div>
         <h3>Braces &amp; Orthodontics</h3>
@@ -118,7 +168,12 @@
     </div>
 
     <div id="rootcanal" class="svc-section reveal">
-      <div class="svc-section-icon">🩺</div>
+      <div class="svc-video-wrap">
+        <video autoplay muted loop playsinline preload="none">
+          <source src="media/videos/svc-rootcanal.mp4" type="video/mp4" />
+        </video>
+        <div class="svc-video-badge">Root Canal</div>
+      </div>
       <div class="svc-section-content">
         <div class="svc-section-badge">Endodontics</div>
         <h3>Root Canal Treatment</h3>
@@ -134,7 +189,12 @@
     </div>
 
     <div id="crowns" class="svc-section reveal">
-      <div class="svc-section-icon">👑</div>
+      <div class="svc-video-wrap">
+        <video autoplay muted loop playsinline preload="none">
+          <source src="media/videos/svc-crowns.mp4" type="video/mp4" />
+        </video>
+        <div class="svc-video-badge">Crowns &amp; Bridges</div>
+      </div>
       <div class="svc-section-content">
         <div class="svc-section-badge">Restorative</div>
         <h3>Crowns &amp; Bridges</h3>
@@ -150,7 +210,12 @@
     </div>
 
     <div id="scaling" class="svc-section reveal">
-      <div class="svc-section-icon">🪥</div>
+      <div class="svc-video-wrap">
+        <video autoplay muted loop playsinline preload="none">
+          <source src="media/videos/svc-scaling.mp4" type="video/mp4" />
+        </video>
+        <div class="svc-video-badge">Scaling &amp; Polishing</div>
+      </div>
       <div class="svc-section-content">
         <div class="svc-section-badge">Preventive</div>
         <h3>Scaling &amp; Polishing</h3>
@@ -166,7 +231,12 @@
     </div>
 
     <div id="cosmetic" class="svc-section reveal">
-      <div class="svc-section-icon">💎</div>
+      <div class="svc-video-wrap">
+        <video autoplay muted loop playsinline preload="none">
+          <source src="media/videos/svc-filling.mp4" type="video/mp4" />
+        </video>
+        <div class="svc-video-badge">Cosmetic Dentistry</div>
+      </div>
       <div class="svc-section-content">
         <div class="svc-section-badge">Cosmetic</div>
         <h3>Cosmetic Dentistry</h3>
@@ -182,7 +252,12 @@
     </div>
 
     <div id="pediatric" class="svc-section reveal">
-      <div class="svc-section-icon">👶</div>
+      <div class="svc-video-wrap">
+        <video autoplay muted loop playsinline preload="none">
+          <source src="media/videos/svc-kids.mp4" type="video/mp4" />
+        </video>
+        <div class="svc-video-badge">Children's Dentistry</div>
+      </div>
       <div class="svc-section-content">
         <div class="svc-section-badge">Pediatric</div>
         <h3>Children's Dentistry</h3>
@@ -198,7 +273,12 @@
     </div>
 
     <div id="extractions" class="svc-section reveal">
-      <div class="svc-section-icon">🔧</div>
+      <div class="svc-video-wrap">
+        <video autoplay muted loop playsinline preload="none">
+          <source src="media/videos/procedure.mp4" type="video/mp4" />
+        </video>
+        <div class="svc-video-badge">Tooth Extractions</div>
+      </div>
       <div class="svc-section-content">
         <div class="svc-section-badge">Oral Surgery</div>
         <h3>Tooth Extractions</h3>
