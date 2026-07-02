@@ -1038,6 +1038,83 @@ footer {
 .text-white { color: var(--white); }
 
 /* ============================
+   3D & PREMIUM UPGRADES
+============================ */
+
+/* Richer stat numbers */
+.stat-number {
+  text-shadow: 0 4px 20px rgba(244,208,63,0.25);
+}
+
+/* Stats bar — richer bottom gradient border */
+.stats-bar::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--primary-light), var(--accent), var(--primary-light), transparent);
+}
+
+/* White card 3D lift */
+.white-card:hover {
+  transform: translateY(-10px) rotateX(-1deg);
+  box-shadow: 0 30px 80px rgba(27,79,114,0.18), 0 0 0 1px rgba(244,208,63,0.18);
+}
+
+/* Glass card premium hover */
+.glass-card-hover:hover {
+  background: rgba(255,255,255,0.12);
+  border-color: rgba(244,208,63,0.22);
+  transform: translateY(-8px);
+  box-shadow: 0 30px 80px rgba(0,0,0,0.35), 0 0 0 1px rgba(244,208,63,0.15);
+}
+
+/* Richer buttons */
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent) 0%, #f9c900 50%, #e6b800 100%);
+  box-shadow: 0 6px 28px rgba(244,208,63,0.4), 0 2px 6px rgba(0,0,0,0.15);
+}
+.btn-primary:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 14px 45px rgba(244,208,63,0.55), 0 0 80px rgba(244,208,63,0.12);
+}
+
+.btn-navy {
+  background: linear-gradient(135deg, var(--primary) 0%, #1a3f5e 100%);
+  box-shadow: 0 6px 24px rgba(27,79,114,0.45), 0 2px 6px rgba(0,0,0,0.15);
+}
+.btn-navy:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 14px 45px rgba(27,79,114,0.55);
+}
+
+/* Marquee card shimmer on hover */
+.marquee-card:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: rgba(244,208,63,0.3);
+  transform: translateY(-6px);
+  box-shadow: 0 0 40px rgba(244,208,63,0.1), 0 20px 50px rgba(0,0,0,0.3);
+}
+
+/* Location card 3D */
+.location-card:hover {
+  transform: translateY(-12px) rotateX(-1deg);
+  box-shadow: 0 30px 80px rgba(27,79,114,0.22), 0 0 0 2px rgba(244,208,63,0.25);
+}
+
+/* Richer footer CTA */
+.footer-cta {
+  background: linear-gradient(135deg, #f4d03f 0%, #e6b800 40%, #f9c900 70%, #f4d03f 100%);
+  background-size: 200% 100%;
+  animation: shimmerBar 6s linear infinite;
+}
+
+/* Timeline dot glow */
+.tl-dot {
+  box-shadow: 0 0 0 4px rgba(244,208,63,0.25), 0 0 24px rgba(244,208,63,0.3);
+}
+
+/* ============================
    RESPONSIVE
 ============================ */
 @media (max-width: 1024px) {

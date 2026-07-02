@@ -14,46 +14,97 @@
   <link rel="stylesheet" href="css/components.css" />
   <link rel="stylesheet" href="css/animations.css" />
   <style>
-  /* Make each service row flex: video left, content right */
+  /* Rich section background */
+  .bg-white-section {
+    background: linear-gradient(160deg,#f0f5ff 0%,#fafbff 40%,#fff9ec 70%,#f5f8ff 100%) !important;
+  }
+
+  /* 3D service rows */
   .svc-section {
     display: flex;
-    gap: 36px;
+    gap: 40px;
     align-items: flex-start;
+    perspective: 900px;
   }
   .svc-section-content { flex: 1; min-width: 0; }
 
+  /* 3D video card */
   .svc-video-wrap {
     flex-shrink: 0;
-    width: 220px;
-    border-radius: 18px;
+    width: 230px;
+    border-radius: 22px;
     overflow: hidden;
-    border: 2px solid rgba(27,79,114,0.18);
-    box-shadow: 0 12px 40px rgba(0,0,0,0.13);
+    border: none;
+    box-shadow:
+      0 20px 60px rgba(27,79,114,0.22),
+      0 4px 16px rgba(0,0,0,0.12),
+      0 0 0 1px rgba(255,255,255,0.6) inset;
     background: #0a1520;
     position: relative;
+    transform: perspective(700px) rotateY(6deg) rotateX(2deg);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+  }
+  .svc-section:hover .svc-video-wrap {
+    transform: perspective(700px) rotateY(0deg) rotateX(0deg) scale(1.03);
+    box-shadow:
+      0 30px 80px rgba(27,79,114,0.3),
+      0 0 0 2px rgba(244,208,63,0.5),
+      0 0 40px rgba(244,208,63,0.1);
   }
   .svc-video-wrap video {
     width: 100%;
     display: block;
     aspect-ratio: 9/14;
     object-fit: cover;
+    transition: transform 0.5s ease;
   }
+  .svc-section:hover .svc-video-wrap video { transform: scale(1.04); }
+
+  /* Glowing ring behind video */
+  .svc-video-wrap::before {
+    content: '';
+    position: absolute;
+    inset: -8px;
+    border-radius: 28px;
+    background: linear-gradient(135deg, rgba(244,208,63,0.3) 0%, rgba(27,79,114,0.3) 100%);
+    z-index: -1;
+    filter: blur(12px);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+  .svc-section:hover .svc-video-wrap::before { opacity: 1; }
+
   .svc-video-badge {
     position: absolute;
-    bottom: 10px; left: 10px;
-    background: rgba(244,208,63,0.92);
+    bottom: 12px; left: 12px;
+    background: linear-gradient(135deg, rgba(244,208,63,0.96), rgba(230,184,0,0.96));
     color: #0a1520;
     font-family: 'Poppins', sans-serif;
-    font-size: 0.6rem;
-    font-weight: 700;
-    letter-spacing: 1px;
+    font-size: 0.58rem;
+    font-weight: 800;
+    letter-spacing: 1.2px;
     text-transform: uppercase;
-    padding: 4px 10px;
+    padding: 5px 12px;
     border-radius: 20px;
+    box-shadow: 0 4px 12px rgba(244,208,63,0.4);
   }
+
+  /* Alternating row alignment for visual rhythm */
+  .svc-section:nth-child(even) { flex-direction: row-reverse; }
+  .svc-section:nth-child(even) .svc-video-wrap {
+    transform: perspective(700px) rotateY(-6deg) rotateX(2deg);
+  }
+  .svc-section:nth-child(even):hover .svc-video-wrap {
+    transform: perspective(700px) rotateY(0deg) rotateX(0deg) scale(1.03);
+  }
+
   @media (max-width: 768px) {
-    .svc-section { flex-direction: column; }
-    .svc-video-wrap { width: 100%; }
+    .svc-section,
+    .svc-section:nth-child(even) { flex-direction: column; }
+    .svc-video-wrap,
+    .svc-section:nth-child(even) .svc-video-wrap {
+      width: 100%; transform: none;
+    }
     .svc-video-wrap video { aspect-ratio: 16/9; }
   }
   </style>

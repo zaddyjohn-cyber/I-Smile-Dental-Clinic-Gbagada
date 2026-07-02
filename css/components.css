@@ -3,12 +3,13 @@
    ============================================ */
 
 /* ============================
-   SERVICE FLIP CARDS
+   SERVICE CARDS — 3D PREMIUM
 ============================ */
 .services-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+  gap: 28px;
+  perspective: 1200px;
 }
 
 .svc-card {
@@ -17,14 +18,41 @@
   background: var(--white);
   border-radius: var(--radius-lg);
   border: 1px solid rgba(0,0,0,0.06);
-  box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+  box-shadow:
+    0 4px 24px rgba(0,0,0,0.07),
+    0 1px 3px rgba(0,0,0,0.05);
   overflow: hidden;
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  transition: transform 0.45s cubic-bezier(0.34,1.2,0.64,1), box-shadow 0.45s ease;
   cursor: default;
+  position: relative;
+  transform-style: preserve-3d;
 }
+
+/* Gold shimmer top bar */
+.svc-card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent) 0%, var(--primary-light) 50%, var(--accent) 100%);
+  background-size: 200% 100%;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s ease;
+  z-index: 10;
+  animation: shimmerBar 3s linear infinite paused;
+}
+.svc-card:hover::after {
+  transform: scaleX(1);
+  animation-play-state: running;
+}
+
 .svc-card:hover {
-  box-shadow: 0 16px 48px rgba(27,79,114,0.14);
-  transform: translateY(-4px);
+  transform: translateY(-10px) rotateX(-3deg) rotateY(2deg) scale(1.02);
+  box-shadow:
+    0 30px 70px rgba(27,79,114,0.2),
+    0 0 0 2px rgba(244,208,63,0.55),
+    0 0 50px rgba(244,208,63,0.08);
 }
 
 .svc-icon {
@@ -37,43 +65,92 @@
   transition: var(--spring);
 }
 
+.svc-card-vid-wrap {
+  position: relative;
+  flex-shrink: 0;
+  overflow: hidden;
+}
 .svc-card-vid {
   width: 100%;
-  height: 180px;
+  height: 190px;
   object-fit: cover;
   display: block;
-  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-  flex-shrink: 0;
+  transition: transform 0.5s ease;
 }
+.svc-card:hover .svc-card-vid { transform: scale(1.06); }
+
+/* soft fade from video into card body */
+.svc-card-vid-wrap::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 60px;
+  background: linear-gradient(to top, var(--white) 0%, transparent 100%);
+  pointer-events: none;
+}
+
 .svc-card-body {
-  padding: 18px 20px 20px;
+  padding: 16px 22px 22px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
   flex: 1;
+  position: relative;
 }
+
+/* colored left accent strip */
+.svc-card-body::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 14px; bottom: 14px;
+  width: 3px;
+  border-radius: 3px;
+  background: linear-gradient(to bottom, var(--accent), var(--primary-light));
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.svc-card:hover .svc-card-body::before { opacity: 1; }
+
 .svc-card-body h3 {
   font-family: var(--font-head);
-  font-weight: 700;
-  font-size: 1rem;
+  font-weight: 800;
+  font-size: 1.05rem;
   color: var(--dark);
+  transition: color 0.3s ease;
 }
+.svc-card:hover .svc-card-body h3 { color: var(--primary); }
+
 .svc-card-body p {
   font-size: 0.85rem;
   color: var(--gray);
-  line-height: 1.6;
+  line-height: 1.65;
   flex: 1;
 }
+
 .svc-read-more {
   font-family: var(--font-head);
   font-weight: 700;
-  font-size: 0.8rem;
+  font-size: 0.82rem;
   color: var(--primary);
   text-decoration: none;
-  letter-spacing: 0.3px;
-  transition: color 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  position: relative;
+  transition: color 0.25s, gap 0.25s;
 }
-.svc-read-more:hover { color: var(--accent); }
+.svc-read-more::after {
+  content: '';
+  position: absolute;
+  bottom: -2px; left: 0; right: 0;
+  height: 1.5px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+.svc-read-more:hover { color: var(--accent); gap: 10px; }
+.svc-read-more:hover::after { transform: scaleX(1); }
 
 .svc-card:hover .svc-icon {
   background: linear-gradient(135deg, var(--accent), #e6b800);

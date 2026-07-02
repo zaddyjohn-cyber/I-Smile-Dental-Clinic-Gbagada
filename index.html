@@ -503,11 +503,15 @@
 <!-- ====================
      SERVICES PREVIEW
 ==================== -->
-<section class="section bg-white-section" style="position:relative;">
-  <div class="mesh-bg">
-    <div class="mesh-blob blob-yellow float-slow" style="width:400px;height:400px;top:-100px;right:-100px;opacity:0.07;"></div>
-    <div class="mesh-blob blob-blue float-med" style="width:300px;height:300px;bottom:-80px;left:-80px;opacity:0.07;"></div>
-  </div>
+<section class="section svc-preview-section" style="position:relative;overflow:hidden;">
+  <!-- diagonal gradient background -->
+  <div style="position:absolute;inset:0;background:linear-gradient(160deg,#f0f5ff 0%,#fafbff 40%,#fff9ec 70%,#f5f8ff 100%);z-index:0;"></div>
+  <!-- large gold orb top-right -->
+  <div style="position:absolute;top:-180px;right:-120px;width:560px;height:560px;border-radius:50%;background:radial-gradient(circle,rgba(244,208,63,0.13) 0%,transparent 70%);pointer-events:none;z-index:0;"></div>
+  <!-- navy orb bottom-left -->
+  <div style="position:absolute;bottom:-140px;left:-100px;width:480px;height:480px;border-radius:50%;background:radial-gradient(circle,rgba(27,79,114,0.09) 0%,transparent 70%);pointer-events:none;z-index:0;"></div>
+  <!-- subtle dot grid -->
+  <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(27,79,114,0.06) 1px,transparent 1px);background-size:32px 32px;z-index:0;pointer-events:none;"></div>
   <div class="container" style="position:relative;z-index:1;">
     <div class="text-center reveal" style="margin-bottom:60px;">
       <div class="chip"><span class="dot"></span>Our Services</div>
@@ -518,7 +522,7 @@
 
     <div class="services-grid stagger-children">
       <div class="svc-card reveal delay-1">
-        <video class="svc-card-vid" autoplay muted loop playsinline preload="none"><source src="media/videos/svc-whitening.mp4" type="video/mp4"/></video>
+        <div class="svc-card-vid-wrap"><video class="svc-card-vid" autoplay muted loop playsinline preload="none"><source src="media/videos/svc-whitening.mp4" type="video/mp4"/></video></div>
         <div class="svc-card-body">
           <h3>Teeth Whitening</h3>
           <p>Brighten your smile up to 8 shades in one visit with professional-grade whitening technology.</p>
@@ -526,7 +530,7 @@
         </div>
       </div>
       <div class="svc-card reveal delay-2">
-        <video class="svc-card-vid" autoplay muted loop playsinline preload="none"><source src="media/videos/svc-implants.mp4" type="video/mp4"/></video>
+        <div class="svc-card-vid-wrap"><video class="svc-card-vid" autoplay muted loop playsinline preload="none"><source src="media/videos/svc-implants.mp4" type="video/mp4"/></video></div>
         <div class="svc-card-body">
           <h3>Dental Implants</h3>
           <p>Permanent, natural-looking tooth replacement that looks, feels and functions like your real teeth.</p>
@@ -534,7 +538,7 @@
         </div>
       </div>
       <div class="svc-card reveal delay-3">
-        <video class="svc-card-vid" autoplay muted loop playsinline preload="none"><source src="media/videos/svc-braces.mp4" type="video/mp4"/></video>
+        <div class="svc-card-vid-wrap"><video class="svc-card-vid" autoplay muted loop playsinline preload="none"><source src="media/videos/svc-braces.mp4" type="video/mp4"/></video></div>
         <div class="svc-card-body">
           <h3>Braces &amp; Orthodontics</h3>
           <p>Traditional and modern braces for all ages. Straighten your smile and boost your confidence.</p>
@@ -542,7 +546,7 @@
         </div>
       </div>
       <div class="svc-card reveal delay-2">
-        <video class="svc-card-vid" autoplay muted loop playsinline preload="none"><source src="media/videos/svc-rootcanal.mp4" type="video/mp4"/></video>
+        <div class="svc-card-vid-wrap"><video class="svc-card-vid" autoplay muted loop playsinline preload="none"><source src="media/videos/svc-rootcanal.mp4" type="video/mp4"/></video></div>
         <div class="svc-card-body">
           <h3>Root Canal</h3>
           <p>Save your natural tooth pain-free. Our gentle root canal therapy is comfortable and effective.</p>
@@ -550,7 +554,7 @@
         </div>
       </div>
       <div class="svc-card reveal delay-3">
-        <video class="svc-card-vid" autoplay muted loop playsinline preload="none"><source src="media/videos/svc-crowns.mp4" type="video/mp4"/></video>
+        <div class="svc-card-vid-wrap"><video class="svc-card-vid" autoplay muted loop playsinline preload="none"><source src="media/videos/svc-crowns.mp4" type="video/mp4"/></video></div>
         <div class="svc-card-body">
           <h3>Crowns &amp; Bridges</h3>
           <p>Restore damaged or missing teeth with custom-made, natural-looking crowns and bridges.</p>
@@ -558,7 +562,7 @@
         </div>
       </div>
       <div class="svc-card reveal delay-4">
-        <video class="svc-card-vid" autoplay muted loop playsinline preload="none"><source src="media/videos/svc-scaling.mp4" type="video/mp4"/></video>
+        <div class="svc-card-vid-wrap"><video class="svc-card-vid" autoplay muted loop playsinline preload="none"><source src="media/videos/svc-scaling.mp4" type="video/mp4"/></video></div>
         <div class="svc-card-body">
           <h3>Scaling &amp; Polishing</h3>
           <p>Deep professional clean that removes plaque and tartar for healthier gums and a brighter smile.</p>
