@@ -711,7 +711,7 @@
 </footer>
 
 <!-- SCRIPTS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.155.0/build/three.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
@@ -824,10 +824,7 @@
   const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   renderer.setSize(W, H);
-  renderer.shadowMap.enabled = true;
-  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-  renderer.physicallyCorrectLights = true;
-  renderer.outputEncoding = THREE.sRGBEncoding;
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.4;
 
@@ -887,17 +884,21 @@
   torus.rotation.z = THREE.MathUtils.degToRad(-8);
   scene.add(torus);
 
-  /* ---- Simple env map for reflections (procedural) ---- */
+  /* ---- Simple env map from gradient cube (no addon needed) ---- */
   const pmrem = new THREE.PMREMGenerator(renderer);
-  pmrem.compileEquirectangularShader();
-
-  // Build a simple radiance env: dark room with bright top
+  pmrem.compileCubemapShader();
+  // Bright top-left, dark bottom-right — gives chrome its glare
+  const cubeRenderTarget = new THREE.WebGLCubeRenderTarget(128);
+  const cubeCamera = new THREE.CubeCamera(0.1, 10, cubeRenderTarget);
+  // Light the env scene for reflection capture
   const envScene = new THREE.Scene();
-  envScene.background = new THREE.Color(0x080d06);
-  // Top hemisphere bright, bottom dark
-  envScene.add(new THREE.HemisphereLight(0xeeffdd, 0x050a03, 3));
-  const envTex = pmrem.fromScene(new THREE.RoomEnvironment(), 0.04).texture;
-  scene.environment = envTex;
+  envScene.background = new THREE.Color(0x060c04);
+  envScene.add(new THREE.HemisphereLight(0xddffc0, 0x020802, 6));
+  const envKeyL = new THREE.DirectionalLight(0xffffff, 8);
+  envKeyL.position.set(-2, 3, 2);
+  envScene.add(envKeyL);
+  cubeCamera.update(renderer, envScene);
+  scene.environment = pmrem.fromCubemap(cubeRenderTarget.texture).texture;
 
   /* ---- Animate ---- */
   let t = 0;
