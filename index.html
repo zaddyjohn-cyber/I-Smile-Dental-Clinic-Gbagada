@@ -277,29 +277,43 @@
     .orbit-img-card { width: 75px; }
   }
   @media (max-width: 600px) {
-    /* Mobile: flex column — text first, video then orbit below */
     .hero {
       display: flex;
       flex-direction: column;
-      min-height: auto;
-      padding-top: 72px;
+      min-height: 100vh;
+      padding-top: 68px;
       background: #050d14;
     }
 
     .hero-content-wrap {
       order: 1;
-      padding: 28px 20px 12px;
       position: relative;
       z-index: 10;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
     }
 
-    /* Video plays as a card below text, then fades to orbit */
+    /* hero-split: text first (order 1), orbit second (order 2) */
+    .hero-split {
+      display: flex;
+      flex-direction: column;
+      padding: 24px 20px 0;
+      text-align: center;
+      justify-items: center;
+      min-height: auto;
+      gap: 0;
+      flex: 1;
+    }
+    .hero-text { order: 1; padding-bottom: 8px; }
+
+    /* Video plays as a card between text and orbit */
     .hero-video-wrap {
       order: 2;
       position: relative !important;
       inset: auto !important;
-      height: 210px;
-      margin: 0 16px 0;
+      height: 200px;
+      margin: 12px 16px 0;
       border-radius: 16px;
       overflow: hidden;
       border: 1.5px solid rgba(244,208,63,0.2);
@@ -309,7 +323,7 @@
     }
     .hero-video-wrap.fade-out {
       height: 0 !important;
-      margin-bottom: 0 !important;
+      margin: 0 16px !important;
       opacity: 0 !important;
     }
 
@@ -318,6 +332,7 @@
 
     /* Orbit: collapsed until video ends, then animates in */
     .orbit-stage {
+      order: 2;
       position: relative !important;
       width: 100%;
       height: 0;
@@ -325,30 +340,22 @@
       opacity: 0;
       transform: none !important;
       margin: 0;
-      transition: height 0.7s ease, opacity 0.7s ease, margin 0.5s ease;
+      transition: height 0.7s ease, opacity 0.7s ease;
     }
     .orbit-stage.show {
-      height: 300px;
+      height: 290px;
       opacity: 1;
-      margin: 8px 0 16px;
+      margin: 4px 0 8px;
     }
 
     /* Smaller orbit image cards on mobile */
-    .orbit-img-card { width: 68px; }
+    .orbit-img-card { width: 66px; }
 
     .vid-progress { display: none; }
     .scroll-indicator { display: none; }
-
-    .hero-split {
-      padding: 0;
-      grid-template-columns: 1fr;
-      text-align: center;
-      justify-items: center;
-      min-height: auto;
-    }
     .hero-btns { flex-direction: column; align-items: center; gap: 12px; }
     .hero-proof { justify-content: center; }
-    .hero-badge { font-size: 0.65rem; }
+    .hero-badge { font-size: 0.63rem; }
   }
   </style>
 </head>
