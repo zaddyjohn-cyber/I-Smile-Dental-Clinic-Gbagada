@@ -90,7 +90,7 @@
   }
   .orbit-stage.show { opacity: 1; transform: scale(1); }
 
-  /* ---- METALLIC GREEN SPHERE (dark chrome exterior, green glowing core) ---- */
+  /* ---- SPHERE + RING: rendered by Three.js canvas #orb-canvas ---- */
   .orb-sphere {
     position: absolute;
     width: 230px; height: 230px;
@@ -375,13 +375,8 @@
 
       <!-- RIGHT: orbital sphere — hidden until video ends -->
       <div class="orbit-stage" id="orbit-stage">
-        <!-- Decorative orbit ring paths -->
-        <div class="orbit-ring orbit-ring-1"></div>
-        <div class="orbit-ring orbit-ring-2"></div>
-        <div class="orbit-ring orbit-ring-3"></div>
-
-        <!-- Central metallic sphere -->
-        <div class="orb-sphere"></div>
+        <!-- Three.js sphere + torus ring -->
+        <canvas id="orb-canvas" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:5;pointer-events:none;"></canvas>
 
         <!-- Orbiting image cards — positioned by JS -->
         <div class="orbit-img-card" id="oc0">
@@ -716,6 +711,7 @@
 </footer>
 
 <!-- SCRIPTS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
@@ -807,6 +803,120 @@
   } else {
     setTimeout(launchOrbits, 500);
   }
+})();
+</script>
+
+<script>
+/* =============================================
+   THREE.JS — METALLIC SPHERE + CHROME TORUS
+============================================= */
+(function () {
+  const canvas = document.getElementById('orb-canvas');
+  if (!canvas || typeof THREE === 'undefined') return;
+
+  const W = 460, H = 460;
+  canvas.width  = W;
+  canvas.height = H;
+  canvas.style.width  = W + 'px';
+  canvas.style.height = H + 'px';
+
+  /* ---- Renderer ---- */
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setSize(W, H);
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer.physicallyCorrectLights = true;
+  renderer.outputEncoding = THREE.sRGBEncoding;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.4;
+
+  /* ---- Scene & Camera ---- */
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(38, W / H, 0.1, 100);
+  camera.position.set(0, 0.3, 5.5);
+  camera.lookAt(0, 0, 0);
+
+  /* ---- Lights ---- */
+  // Key light — top-left, creates the main chrome glare
+  const keyLight = new THREE.DirectionalLight(0xffffff, 4.5);
+  keyLight.position.set(-3, 4, 3);
+  scene.add(keyLight);
+
+  // Fill light — opposite side, softer
+  const fillLight = new THREE.DirectionalLight(0xc8e8ff, 1.2);
+  fillLight.position.set(3, -2, 2);
+  scene.add(fillLight);
+
+  // Back rim light — gives edge separation
+  const rimLight = new THREE.DirectionalLight(0xffffff, 0.8);
+  rimLight.position.set(0, -3, -4);
+  scene.add(rimLight);
+
+  // Ambient — low, prevents pitch-black shadows
+  scene.add(new THREE.AmbientLight(0x112208, 1.5));
+
+  // Green point light — inner glow effect on sphere
+  const greenGlow = new THREE.PointLight(0x55cc10, 2.5, 4);
+  greenGlow.position.set(0, 0, 0);
+  scene.add(greenGlow);
+
+  /* ---- Sphere ---- */
+  const sphereGeo = new THREE.SphereGeometry(1, 64, 64);
+  const sphereMat = new THREE.MeshStandardMaterial({
+    color:     0x3a8c0a,   // base green
+    metalness: 0.55,
+    roughness: 0.38,
+    envMapIntensity: 1.2,
+  });
+  const sphere = new THREE.Mesh(sphereGeo, sphereMat);
+  scene.add(sphere);
+
+  /* ---- Chrome Torus Ring ---- */
+  // TorusGeometry(radius, tube, radialSegments, tubularSegments, arc)
+  const torusGeo = new THREE.TorusGeometry(1.48, 0.22, 32, 120);
+  const torusMat = new THREE.MeshStandardMaterial({
+    color:     0xc8d0c8,   // chrome silver
+    metalness: 0.98,
+    roughness: 0.06,
+    envMapIntensity: 2.0,
+  });
+  const torus = new THREE.Mesh(torusGeo, torusMat);
+  // Tilt to match reference — slight angle
+  torus.rotation.x = THREE.MathUtils.degToRad(18);
+  torus.rotation.z = THREE.MathUtils.degToRad(-8);
+  scene.add(torus);
+
+  /* ---- Simple env map for reflections (procedural) ---- */
+  const pmrem = new THREE.PMREMGenerator(renderer);
+  pmrem.compileEquirectangularShader();
+
+  // Build a simple radiance env: dark room with bright top
+  const envScene = new THREE.Scene();
+  envScene.background = new THREE.Color(0x080d06);
+  // Top hemisphere bright, bottom dark
+  envScene.add(new THREE.HemisphereLight(0xeeffdd, 0x050a03, 3));
+  const envTex = pmrem.fromScene(new THREE.RoomEnvironment(), 0.04).texture;
+  scene.environment = envTex;
+
+  /* ---- Animate ---- */
+  let t = 0;
+  function animate() {
+    requestAnimationFrame(animate);
+    t += 0.008;
+
+    // Slow spin + subtle wobble
+    sphere.rotation.y = t * 0.4;
+    sphere.rotation.x = Math.sin(t * 0.3) * 0.08;
+
+    torus.rotation.y = t * 0.25;
+
+    // Subtle breathing scale on green glow
+    greenGlow.intensity = 2.5 + Math.sin(t * 1.5) * 0.8;
+
+    renderer.render(scene, camera);
+  }
+  animate();
 })();
 </script>
 
