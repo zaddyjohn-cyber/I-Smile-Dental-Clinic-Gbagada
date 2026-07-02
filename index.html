@@ -90,112 +90,117 @@
   }
   .orbit-stage.show { opacity: 1; transform: scale(1); }
 
-  /* ---- CENTRAL METALLIC GREEN SPHERE ---- */
+  /* ---- METALLIC GREEN SPHERE (dark chrome exterior, green glowing core) ---- */
   .orb-sphere {
     position: absolute;
-    width: 220px; height: 220px;
+    width: 230px; height: 230px;
     border-radius: 50%;
     z-index: 6;
+    /* Dark metallic chrome exterior; green only visible in the lit inner zone */
     background:
-      radial-gradient(circle at 36% 30%,
-        rgba(255,255,255,0.55) 0%,
-        rgba(210,240,160,0.45) 7%,
-        rgba(140,210,50,0.85) 18%,
-        rgba(100,190,25,0.92) 32%,
-        rgba(70,145,15,0.95) 48%,
-        rgba(40,90,8,1)       62%,
-        rgba(25,50,5,1)       74%,
-        rgba(14,22,4,1)       85%,
-        rgba(8,12,3,1)        100%
+      radial-gradient(circle at 38% 30%,
+        rgba(255,255,255,0.60) 0%,      /* bright specular flare */
+        rgba(200,235,140,0.55) 5%,      /* glare halo */
+        rgba(135,210,42,0.90) 14%,      /* bright lime lit zone */
+        rgba(88,165,16,0.95) 26%,       /* mid green */
+        rgba(54,118,10,0.98) 38%,       /* deep green */
+        rgba(36,78,7,1)      50%,       /* green → chrome transition */
+        rgba(44,55,36,1)     60%,       /* dark chrome-green */
+        rgba(56,64,48,1)     68%,       /* dark gunmetal */
+        rgba(62,68,55,1)     75%,       /* medium gunmetal rim */
+        rgba(48,54,42,1)     82%,
+        rgba(30,34,26,1)     90%,
+        rgba(14,16,12,1)     100%       /* near-black edge */
       );
     box-shadow:
-      inset -40px -40px 90px rgba(0,0,0,0.92),
-      inset 10px 12px 35px rgba(160,255,60,0.10),
-      0 0 60px rgba(90,190,15,0.32),
-      0 0 120px rgba(70,150,8,0.16);
-    animation: spherePulse 4s ease-in-out infinite;
+      /* Strong dark shadow on right/bottom — key to metallic look */
+      inset -65px -65px 110px rgba(0,0,0,0.97),
+      inset -20px -20px 50px rgba(0,0,0,0.85),
+      /* Subtle green inner glow */
+      inset 6px 6px 20px rgba(100,200,30,0.06),
+      /* Outer green ambient */
+      0 0 80px rgba(75,180,10,0.28),
+      0 0 160px rgba(55,145,6,0.13);
+    animation: spherePulse 4.5s ease-in-out infinite;
   }
-  /* Top-left chrome glare */
+  /* Main chrome specular highlight — top-left */
   .orb-sphere::before {
     content: '';
     position: absolute;
-    top: 9%; left: 14%;
-    width: 44%; height: 30%;
+    top: 8%; left: 13%;
+    width: 46%; height: 32%;
     border-radius: 50%;
-    background: radial-gradient(ellipse at 38% 38%,
-      rgba(255,255,255,0.75) 0%,
-      rgba(230,255,190,0.35) 45%,
-      transparent 80%
+    background: radial-gradient(ellipse at 36% 36%,
+      rgba(255,255,255,0.80) 0%,
+      rgba(230,255,190,0.38) 40%,
+      transparent 78%
     );
-    filter: blur(3px);
+    filter: blur(3.5px);
   }
-  /* Small secondary sparkle */
+  /* Tiny secondary sparkle */
   .orb-sphere::after {
     content: '';
     position: absolute;
-    top: 20%; left: 55%;
-    width: 13%; height: 9%;
+    top: 21%; left: 57%;
+    width: 12%; height: 8%;
     border-radius: 50%;
-    background: radial-gradient(ellipse, rgba(255,255,255,0.6) 0%, transparent 100%);
-    filter: blur(2px);
+    background: radial-gradient(ellipse, rgba(255,255,255,0.65) 0%, transparent 100%);
+    filter: blur(1.5px);
   }
   @keyframes spherePulse {
-    0%,100% { box-shadow: inset -40px -40px 90px rgba(0,0,0,0.92), inset 10px 12px 35px rgba(160,255,60,0.10), 0 0 60px rgba(90,190,15,0.32), 0 0 120px rgba(70,150,8,0.16); }
-    50%      { box-shadow: inset -40px -40px 90px rgba(0,0,0,0.92), inset 10px 12px 35px rgba(160,255,60,0.14), 0 0 90px rgba(90,190,15,0.50), 0 0 180px rgba(70,150,8,0.26); }
+    0%,100% { box-shadow: inset -65px -65px 110px rgba(0,0,0,0.97), inset -20px -20px 50px rgba(0,0,0,0.85), inset 6px 6px 20px rgba(100,200,30,0.06), 0 0 80px rgba(75,180,10,0.28), 0 0 160px rgba(55,145,6,0.13); }
+    50%      { box-shadow: inset -65px -65px 110px rgba(0,0,0,0.97), inset -20px -20px 50px rgba(0,0,0,0.85), inset 6px 6px 20px rgba(100,200,30,0.08), 0 0 110px rgba(75,180,10,0.44), 0 0 220px rgba(55,145,6,0.22); }
   }
 
-  /* ---- 3D CHROME TORUS RING ---- */
-  /* Split into back (z<sphere) and front (z>sphere) halves
-     so the ring wraps convincingly around the sphere            */
+  /* ---- THICK 3D CHROME TORUS RING ---- */
+  /* Two halves: back sits behind sphere, front sits in front.
+     clip-path cuts each half so only the correct arc is visible. */
   .orbit-ring {
     position: absolute;
     border-radius: 50%;
     pointer-events: none;
-    /* same size + tilt for all ring layers */
-    width: 330px; height: 95px;
-    transform: rotate(-20deg);
+    width: 345px; height: 100px;
+    transform: rotate(-18deg);
   }
 
-  /* BACK half — sits behind sphere */
+  /* BACK half — darker chrome, z behind sphere */
   .orbit-ring-1 {
-    border: 30px solid transparent;
+    border: 40px solid transparent;
     background:
       linear-gradient(#050d14,#050d14) padding-box,
-      linear-gradient(to bottom,
-        #888 0%, #a0a8a0 18%, #c8cec8 35%,
-        #b0b8b0 50%, #787878 65%, #505850 82%, #686e68 100%
+      radial-gradient(ellipse 175px 120px at 50% 180%,
+        #b0b8b0 0%, #909898 25%, #707870 50%,
+        #585e58 70%, #404640 85%, #303430 100%
       ) border-box;
     z-index: 4;
+    clip-path: ellipse(178px 68px at 50% 100%);
     box-shadow:
-      inset 0 8px 20px rgba(255,255,255,0.06),
-      inset 0 -8px 20px rgba(0,0,0,0.6),
-      0 6px 24px rgba(0,0,0,0.6);
-    /* clip so only the bottom half shows (behind sphere) */
-    clip-path: ellipse(165px 60px at 50% 100%);
+      inset 0 14px 28px rgba(255,255,255,0.08),
+      inset 0 -14px 28px rgba(0,0,0,0.75),
+      0 10px 30px rgba(0,0,0,0.65);
   }
 
-  /* FRONT half — sits in front of sphere */
+  /* FRONT half — bright chrome, z in front of sphere */
   .orbit-ring-2 {
-    border: 30px solid transparent;
+    border: 40px solid transparent;
     background:
       linear-gradient(#050d14,#050d14) padding-box,
-      linear-gradient(to bottom,
-        #d8ddd8 0%, #f0f2f0 15%, #ffffff 28%,
-        #d0d8d0 42%, #a8b0a8 56%, #808880 72%, #a0a8a0 88%, #c8cec8 100%
+      radial-gradient(ellipse 175px 120px at 50% -80%,
+        #ffffff 0%, #f0f2f0 12%, #d8ddd8 28%,
+        #b8c0b8 48%, #8c9490 68%, #6c7470 84%, #8a9290 100%
       ) border-box;
     z-index: 8;
+    clip-path: ellipse(178px 68px at 50% 0%);
     box-shadow:
-      inset 0 8px 20px rgba(255,255,255,0.18),
-      inset 0 -8px 20px rgba(0,0,0,0.4),
-      0 -6px 24px rgba(255,255,255,0.06);
-    /* clip so only the top half shows (in front of sphere) */
-    clip-path: ellipse(165px 60px at 50% 0%);
+      inset 0 14px 28px rgba(255,255,255,0.45),
+      inset 0 -14px 28px rgba(0,0,0,0.35),
+      0 -8px 22px rgba(255,255,255,0.08);
   }
 
-  /* Thin outer glow ring */
+  /* Thin outer atmosphere ring */
   .orbit-ring-3 {
-    width: 390px; height: 112px;
-    border: 2px solid rgba(180,210,130,0.14);
+    width: 410px; height: 120px;
+    border: 2px solid rgba(160,200,100,0.10);
     z-index: 3;
   }
 
